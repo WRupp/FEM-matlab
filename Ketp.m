@@ -1,3 +1,4 @@
+
 function Ke = Ketp (X,Y,Cd)
 	% Montagem da matriz tangente do elemento
 
@@ -5,4 +6,5 @@ function Ke = Ketp (X,Y,Cd)
 	Be = Btp(X,Y); 
     
     Ke = Ae * (Be'*Cd*Be);
+
 end

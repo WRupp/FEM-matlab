@@ -1,11 +1,10 @@
-
 clear; close all;
-% Definição do material
+% DefiniÃ§Ã£o do material
 E = 2e5;
 v = 0.0;
 Cd = Celi(E,v);
 
-% Definição da Malha
+% DefiniÃ§Ã£o da Malha
 Ncoord = [ 1 0 0;
            3 0 1;
            2 2 1;
@@ -26,34 +25,34 @@ Nconec = [1 1 4 3;
 %           7 8 9 5;
 %           8 9 10 5];
 
-% Definições do tipo de Elemento
+% DefiniÃ§Ãµes do tipo de Elemento
 
 ngl=2;
 NnosElemento = 3;  
 Nnos = size(Ncoord,1);    
 
-% Declaração inicial de Variaveis
+% DeclaraÃ§Ã£o inicial de Variaveis
 
 Kglobal = zeros(ngl*Nnos);
 
 
 
-% Reorganiza a matriz de coordenadas nodais (numeração crescente)
+% Reorganiza a matriz de coordenadas nodais (numeraÃ§Ã£o crescente)
     SNcoord = sortrows(Ncoord);
     
 
 
 for k = 1: size(Nconec,1);
-    % Acha os nós do elemento
+    % Acha os nÃ³s do elemento
     n1 = Nconec(k,2);
     n2 = Nconec(k,3);
     n3 = Nconec(k,4);
     
-    % Acha a posição dos nós
+    % Acha a posiÃ§Ã£o dos nÃ³s
     X=[SNcoord(n1,2);SNcoord(n2,2);SNcoord(n3,2)];
     Y=[SNcoord(n1,3);SNcoord(n2,3);SNcoord(n3,3)];
         
-    % Geração da matriz elementar
+    % GeraÃ§Ã£o da matriz elementar
     Kelem = Ketp(X,Y,Cd);
     
     % Assembly no elemento na Global    
@@ -64,7 +63,7 @@ for k = 1: size(Nconec,1);
 end
 
  
-%% Condições de contorno 
+%% CondiÃ§Ãµes de contorno 
  
     % Matriz de deslocamentos nodais
         % Nno   U   GL (x=1, y=2)
@@ -75,7 +74,7 @@ end
          
          Mcc = sortrows(Mcc);
       
-         % Matriz de forças nodais
+         % Matriz de forÃ§as nodais
    f=5000;
    
          Mfn=[5 f/2 1;
@@ -88,13 +87,13 @@ for i=1:size(Mfn,1)
 end
 
  
-%% Eliminação de linhas/colunas
+%% EliminaÃ§Ã£o de linhas/colunas
  
  Kfinal =Kglobal;
  Ffinal =F;
  
- % Repensar essa parte da eliminação. Pois a cada eliminação os indices
- % são atualizados: Do jeito que foi feito ta do fim ao inicio
+ % Repensar essa parte da eliminaÃ§Ã£o. Pois a cada eliminaÃ§Ã£o os indices
+ % sÃ£o atualizados: Do jeito que foi feito ta do fim ao inicio
  for i=0:size(Mcc,1)-1
      
  Nno = Mcc(end-i,1);
@@ -113,7 +112,7 @@ end
  
  
  
- %% Pós processamento
+ %% PÃ³s processamento
  
 % Reconstruido os vetor de deslocamentos
 Ufinal = U;
@@ -134,8 +133,8 @@ Ufinal = U;
 
 
  
- % Calculo de deformações
+ % Calculo de deformaÃ§Ãµes
  
- % Calculo de tensões
- 
+ % Calculo de tensÃµes
+
  

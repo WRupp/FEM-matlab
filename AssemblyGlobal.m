@@ -1,8 +1,9 @@
+
 function Kglobal = AssemblyGlobal(Kglobal,NnosElemento,Nconec,Kelem)
 % Assembly da Matriz de Rigidez Global
-% Alguns números 2 foram hardcoded pq o numero de graus de liberdade ngl é
+% Alguns nÃºmeros 2 foram hardcoded pq o numero de graus de liberdade ngl Ã©
 % 2 
-% A matriz de conectividade esperada é 
+% A matriz de conectividade esperada Ã© 
 % Nconec = [ Nelem Nno1 Nno2 Nno3];
 
 ngl=2;
@@ -23,5 +24,5 @@ for k = 1 : size(Nconec,1)
                 2*NnoGlobal-1  : 2*NnoGlobal ) + Kzinho ;            
         cont=cont+1;
         end  
-    end
+     end
 end

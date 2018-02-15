@@ -1,71 +1,69 @@
-
 clear; close all;
-% DefiniÁ„o do material
+% Defini√ß√£o do material
 E = 2e5;
 v = 0.0;
 Cd = Celi(E,v);
 
-% DefiniÁ„o da Malha
-Ncoord = [ 2 0 0;
-           1 0 1;
-           3 2 1;
-           6 4 0;
+% Defini√ß√£o da Malha
+Ncoord = [ 1 0 0;
+           3 0 1;
+           2 2 1;
+           6 4 1;
            4 2 0;           
-           5 4 1];
+           5 4 0];
 %            7 2 -1;
 %            8 4 -1;
 %            9 6 -1;
 %            10 6 0];
        
-Nconec = [1 2 4 3;
-          2 2 3 1;
-          3 4 5 3;
-          4 4 6 5];
+Nconec = [1 1 4 3;
+          2 4 2 3;
+          3 4 5 2;
+          4 5 6 2];
 %           5 7 8 4;
 %           6 8 5 4;
 %           7 8 9 5;
 %           8 9 10 5];
 
-% DefiniÁıes do tipo de Elemento
+% Defini√ß√µes do tipo de Elemento
 
 ngl=2;
 NnosElemento = 3;  
 Nnos = size(Ncoord,1);    
 
-% DeclaraÁ„o inicial de Variaveis
+% Declara√ß√£o inicial de Variaveis
 
 Kglobal = zeros(ngl*Nnos);
 
-% Reorganiza a matriz de coordenadas nodais (numeraÁ„o crescente)
+
+
+% Reorganiza a matriz de coordenadas nodais (numera√ß√£o crescente)
     SNcoord = sortrows(Ncoord);
     
-    figure;
-    hold on; axis equal;
 
-for j = 1: size(Nconec,1);
-    % Acha os nÛs do elemento
-    n1 = Nconec(j,2);
-    n2 = Nconec(j,3);
-    n3 = Nconec(j,4);
+
+for k = 1: size(Nconec,1);
+    % Acha os n√≥s do elemento
+    n1 = Nconec(k,2);
+    n2 = Nconec(k,3);
+    n3 = Nconec(k,4);
     
-    % Acha a posiÁ„o dos nÛs
+    % Acha a posi√ß√£o dos n√≥s
     X=[SNcoord(n1,2);SNcoord(n2,2);SNcoord(n3,2)];
     Y=[SNcoord(n1,3);SNcoord(n2,3);SNcoord(n3,3)];
         
-    % GeraÁ„o da matriz elementar
+    % Gera√ß√£o da matriz elementar
     Kelem = Ketp(X,Y,Cd);
     
     % Assembly no elemento na Global    
-    Kglobal = AssemblyGlobal(Kglobal,NnosElemento,Nconec,Kelem);
+
+     Kglobal = AssemblyGlobal(Kglobal,NnosElemento,Nconec,Kelem,k);
         
-    %Plota o elemento na figura
-    plot([X ; X(1)],[Y ; Y(1)]); 
+
 end
 
-
- plot(Ncoord(:,2),Ncoord(:,3),'ko');
  
-%% CondiÁıes de contorno 
+%% Condi√ß√µes de contorno 
  
     % Matriz de deslocamentos nodais
         % Nno   U   GL (x=1, y=2)
@@ -76,7 +74,7 @@ end
          
          Mcc = sortrows(Mcc);
       
-         % Matriz de forÁas nodais
+         % Matriz de for√ßas nodais
    f=5000;
    
          Mfn=[5 f/2 1;
@@ -85,17 +83,17 @@ end
 F=zeros(ngl*Nnos,1);
 
 for i=1:size(Mfn,1)  
-   F(2*(Mfn(i,1)-1)+Mfn(i,3)) = Mfn(i,2); 
+   F(2*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
 end
 
  
-%% EliminaÁ„o de linhas/colunas
+%% Elimina√ß√£o de linhas/colunas
  
  Kfinal =Kglobal;
  Ffinal =F;
  
- % Repensar essa parte da eliminaÁ„o. Pois a cada eliminaÁ„o os indices
- % s„o atualizados: Do jeito que foi feito ta do fim ao inicio
+ % Repensar essa parte da elimina√ß√£o. Pois a cada elimina√ß√£o os indices
+ % s√£o atualizados: Do jeito que foi feito ta do fim ao inicio
  for i=0:size(Mcc,1)-1
      
  Nno = Mcc(end-i,1);
@@ -110,11 +108,33 @@ end
  
  %% Calculo dos deslocamentos
  
- U = Kfinal  \ Ffinal;
+ U = Kfinal  \ Ffinal ;
  
  
  
+ %% P√≥s processamento
+ 
+% Reconstruido os vetor de deslocamentos
+Ufinal = U;
+ for L = 1:size(Mcc,1)
+  glGlobal= Mcc(L,1)*ngl-2 +  Mcc(L,3);
+  Ufinal = [Ufinal(1:glGlobal-1) ;   Mcc(L,2) ; Ufinal(glGlobal:end)];
+ end
+ 
+ % Plot
+ 
+    figure;
+    hold on; axis equal;    
+    for i=1:size(SNcoord,1)
+    plot(SNcoord(i,2),SNcoord(i,3),'bo'); 
+    plot(SNcoord(i,2)+Ufinal(2*i-1),SNcoord(i,3)+Ufinal(2*i),'ro');        
+    end
+    
+
 
  
+ % Calculo de deforma√ß√µes
  
+ % Calculo de tens√µes
+
  

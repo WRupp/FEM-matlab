@@ -2,16 +2,16 @@
 clear; close all;
 % Definição do material
 E = 2e5;
-v = 0.0;
+v = 0.1;
 Cd = Celi(E,v);
 
 % Definição da Malha
 Ncoord = [ 1 0 0;
-           3 0 1;
            2 2 1;
-           6 4 1;
-           4 2 0;           
-           5 4 0];
+           3 0 1;
+           4 2 0;
+           5 4 0;
+           6 4 1];
 %            7 2 -1;
 %            8 4 -1;
 %            9 6 -1;
@@ -76,7 +76,7 @@ end
          Mcc = sortrows(Mcc);
       
          % Matriz de forças nodais
-   f=5000;
+   f=50000;
    
          Mfn=[5 f/2 1;
               6 f/2 1];
@@ -124,13 +124,8 @@ Ufinal = U;
  
  % Plot
  
-    figure;
-    hold on; axis equal;    
-    for i=1:size(SNcoord,1)
-    plot(SNcoord(i,2),SNcoord(i,3),'bo'); 
-    plot(SNcoord(i,2)+Ufinal(2*i-1),SNcoord(i,3)+Ufinal(2*i),'ro');        
-    end
-    
+    plotNodes(SNcoord,Ufinal)   
+    plotElements(SNcoord, Nconec)
 
 
  

@@ -1,4 +1,4 @@
-function B = Betp(X,Y)
+function B = Btp(X,Y)
 	% Script para geração das Matrizes de um elemento Triangular Plano.
 	%Entrega a matriz de derivadas B do elemento dada as posições nodais. Seguir a numeração anti-horária.
 

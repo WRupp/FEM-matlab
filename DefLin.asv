@@ -24,9 +24,9 @@ function MDef = DefLin(Nconec,SNcoord,Ufinal)
         sn = sortrows(n);
         
         % Acha os deslocamentos dos nós do elemento
-        Ssn = size(sn);
+        Ssn =
         Ue  = [];
-        for i = 1 : Ssn(2) 
+        for i = 1 : Ssnsize(sn,2)
         Ue = [Ue ; Ufinal(2*sn(i)-1) ; Ufinal(2*sn(i)) ];
         end
         

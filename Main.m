@@ -1,66 +1,58 @@
+% Códigos para FEM Linear Elástico em EPD
+% Fevereiro / 2018
+% Wagner Rupp
+
 
 clear; close all;
-% Definição do material
+%% Definição do material
 E = 2e5;
 v = 0.4;
 Cd = Celi(E,v);
 
+%% Definições do tipo de Elemento
+
+ngl=2;
+NnosElemento = 3;  
+
 %% Definição da Malha
 
-% Ncoord = [ 1 0 0;
-%            2 2 1;
-%            3 0 1;
-%            4 2 0;
-%            5 4 0;
-%            6 4 1;
-%            7 0 2;
-%            8 2 2;
-%            9 4 2]; 
-
-% Nconec = [1 1 4 3;
-%           2 4 2 3;
-%           3 4 5 2;
-%           4 5 6 2;
-%           5 2 7 3;
-%           6 2 8 7;
-%           7 2 6 8;
-%           8 6 9 8];
-
-
-caminho = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\InputFilesTest\';
+% caminho = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\InputFilesTest\';
+caminho = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\NewMalha\';
 
 NodeNome = 'NodeFile.inp';
 ElemNome = 'ElemFile.inp';
 
-Ncoord = dlmread([caminho NodeNome]);
+CaminhoArquivoNo = [caminho NodeNome ];
+CaminhoArquivoElem = [caminho ElemNome ];
 
-Ncoord(:,4)=[];
+[Ncoord,Nconec] = LeMalha(CaminhoArquivoNo,CaminhoArquivoElem);
 
-Nconec = dlmread([caminho ElemNome]);
-
-% Definições do tipo de Elemento
-
-ngl=2;
-NnosElemento = 3;  
 Nnos = size(Ncoord,1); 
 
-%% Condições de contorno 
+% Condições de contorno 
  
     % Matriz de deslocamentos nodais
-        % Nno   U   GL (x=1, y=2)
-        Mcc=[1  0   1;
-             1  0   2;
-             3  0   1;
-             3  0   2;
-             7  0   1;
-             7  0   2];      
+    %  % Nno   U   GL (x=1, y=2)
+    
+    xmin=min(Ncoord(:,2)); % se eu soubesse a priori seria melhor
+    Set = NodePosFinder(Ncoord,xmin);
+    
+    Mcc = set2Mcc(Set,0,1,[]);
+    Mcc = set2Mcc(Set,0,2,Mcc);
+    
  
-         % Matriz de forças nodais
-   f=-50000;
+         % Matriz de forÃ§as nodais
+         
+    xmax=max(Ncoord(:,2)); % se eu soubesse a priori seria melhor
+    Set2 = NodePosFinder(Ncoord,xmax);
+    
+    f=-500;
+    Mfn = set2Mcc(Set2,0,1,[]);
+    Mfn = set2Mcc(Set2,f,2,Mfn);         
+         
+
    
-         Mfn=[9 f 2;
-              6 f 2;
-              5 f 2];
+
  
 %% Processamento  
 
@@ -153,10 +145,10 @@ end
     figure;
     hold on; axis equal;   
  
-%     plotNodes(SNcoord,'bo');
+    plotNodes(SNcoord,'bo');
     plotElements(SNcoord, Nconec,'k')
     
-%     plotNodes(DefNcoor,'ro');
+    plotNodes(DefNcoor,'ro');
     plotElements(DefNcoor, Nconec,'m')
       
    

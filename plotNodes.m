@@ -6,4 +6,3 @@ function []=plotNodes(SNcoord,flagCor)
     end   
 end
     
-%  plot(SNcoord(i,2)+Ufinal(2*i-1),SNcoord(i,3)+Ufinal(2*i),'ro'); 

@@ -7,8 +7,6 @@ Cd = Celi(E,v);
 
 %% Definição da Malha
 
-
-
 Ncoord = [ 1 0 0;
            2 2 1;
            3 0 1;
@@ -17,8 +15,7 @@ Ncoord = [ 1 0 0;
            6 4 1;
            7 0 2;
            8 2 2;
-           9 4 2];
-           
+           9 4 2];    
        
 Nconec = [1 1 4 3;
           2 4 2 3;
@@ -44,16 +41,14 @@ Nnos = size(Ncoord,1);
              3  0   1;
              3  0   2;
              7  0   1;
-             7  0   2];
-         
-
-      
+             7  0   2];      
+ 
          % Matriz de forças nodais
-   f=5000;
+   f=50000;
    
-         Mfn=[5 f/2 2;
-              6 f/2 2;
-              9 f/2 2];
+         Mfn=[9 f/2 1;
+              6 f/2 1;
+              5 f/2 1];
  
 %% Processamento  
 
@@ -84,8 +79,7 @@ for k = 1: size(Nconec,1);
     
     % Assembly no elemento na Global    
 
-    Kglobal = AssemblyGlobal(Kglobal,NnosElemento,Nconec,Kelem,k);
-        
+    Kglobal = AssemblyGlobal(Kglobal,NnosElemento,Nconec,Kelem,k); 
    
 end
 
@@ -95,7 +89,6 @@ for i=1:size(Mfn,1)
    F(2*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
 end
  
-
 % Eliminação de linhas/colunas
  
  Kfinal = Kglobal;
@@ -121,15 +114,15 @@ end
  %% Pós processamento
  
 % Reconstruido os vetor de deslocamentos
-Ufinal = U;
- for L = 1:size(Mcc,1)
-  glGlobal= Mcc(L,1)*ngl-2 +  Mcc(L,3);
-  Ufinal = [Ufinal(1:glGlobal-1) ;   Mcc(L,2) ; Ufinal(glGlobal:end)];
- end
+   Ufinal = U;
+   for L = 1:size(Mcc,1)
+      glGlobal= Mcc(L,1)*ngl-2 +  Mcc(L,3);
+      Ufinal = [Ufinal(1:glGlobal-1) ;   Mcc(L,2) ; Ufinal(glGlobal:end)];
+   end
  
  % Coordenadas nodais deslocadas
  
- DefNcoor = defCoord(SNcoord,Ufinal);
+    DefNcoor = defCoord(SNcoord,Ufinal);
  
  % Plot
     figure;
@@ -138,9 +131,12 @@ Ufinal = U;
     plotNodes(SNcoord,'bo');
     plotNodes(DefNcoor,'ro');
     plotElements(SNcoord, Nconec,'k')
-    plotElements(DefNcoor, Nconec,'g')
+    plotElements(DefNcoor, Nconec,'m')
+    
  % Calculo de deformações
+
+   MDef = DefLin(Nconec,SNcoord,Ufinal);
  
  % Calculo de tensões
  
- 
+   Mtensao = CalcTensao(Cd,MDef);      

@@ -2,46 +2,72 @@
 clear; close all;
 % Definição do material
 E = 2e5;
-v = 0.1;
+v = 0.4;
 Cd = Celi(E,v);
 
-% Definição da Malha
+%% Definição da Malha
+
+
+
 Ncoord = [ 1 0 0;
            2 2 1;
            3 0 1;
            4 2 0;
            5 4 0;
-           6 4 1];
-%            7 2 -1;
-%            8 4 -1;
-%            9 6 -1;
-%            10 6 0];
+           6 4 1;
+           7 0 2;
+           8 2 2;
+           9 4 2];
+           
        
 Nconec = [1 1 4 3;
           2 4 2 3;
           3 4 5 2;
-          4 5 6 2];
-%           5 7 8 4;
-%           6 8 5 4;
-%           7 8 9 5;
-%           8 9 10 5];
+          4 5 6 2;
+          5 2 7 3;
+          6 2 8 7;
+          7 2 6 8;
+          8 6 9 8];
 
 % Definições do tipo de Elemento
 
 ngl=2;
 NnosElemento = 3;  
-Nnos = size(Ncoord,1);    
+Nnos = size(Ncoord,1); 
+
+%% Condições de contorno 
+ 
+    % Matriz de deslocamentos nodais
+        % Nno   U   GL (x=1, y=2)
+        Mcc=[1  0   1;
+             1  0   2;
+             3  0   1;
+             3  0   2;
+             7  0   1;
+             7  0   2];
+         
+
+      
+         % Matriz de forças nodais
+   f=5000;
+   
+         Mfn=[5 f/2 2;
+              6 f/2 2;
+              9 f/2 2];
+ 
+%% Processamento  
 
 % Declaração inicial de Variaveis
 
 Kglobal = zeros(ngl*Nnos);
-
+F=zeros(ngl*Nnos,1);
 
 
 % Reorganiza a matriz de coordenadas nodais (numeração crescente)
     SNcoord = sortrows(Ncoord);
+    Mcc = sortrows(Mcc);
     
-
+% Assembly da matriz de rigidez global
 
 for k = 1: size(Nconec,1);
     % Acha os nós do elemento
@@ -58,43 +84,23 @@ for k = 1: size(Nconec,1);
     
     % Assembly no elemento na Global    
 
-     Kglobal = AssemblyGlobal(Kglobal,NnosElemento,Nconec,Kelem,k);
+    Kglobal = AssemblyGlobal(Kglobal,NnosElemento,Nconec,Kelem,k);
         
-
+   
 end
 
- 
-%% Condições de contorno 
- 
-    % Matriz de deslocamentos nodais
-        % Nno   U   GL (x=1, y=2)
-        Mcc=[1  0   1;
-             1  0   2;
-             3  0   1;
-             3  0   2];
-         
-         Mcc = sortrows(Mcc);
-      
-         % Matriz de forças nodais
-   f=50000;
-   
-         Mfn=[5 f/2 1;
-              6 f/2 1];
- 
-F=zeros(ngl*Nnos,1);
+% Assembly do vetor de forças
 
 for i=1:size(Mfn,1)  
    F(2*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
 end
+ 
 
+% Eliminação de linhas/colunas
  
-%% Eliminação de linhas/colunas
+ Kfinal = Kglobal;
+ Ffinal = F;
  
- Kfinal =Kglobal;
- Ffinal =F;
- 
- % Repensar essa parte da eliminação. Pois a cada eliminação os indices
- % são atualizados: Do jeito que foi feito ta do fim ao inicio
  for i=0:size(Mcc,1)-1
      
  Nno = Mcc(end-i,1);
@@ -107,11 +113,10 @@ end
  
  end
  
- %% Calculo dos deslocamentos
+ % Calculo dos deslocamentos
  
  U = Kfinal  \ Ffinal ;
- 
- 
+  
  
  %% Pós processamento
  
@@ -122,13 +127,18 @@ Ufinal = U;
   Ufinal = [Ufinal(1:glGlobal-1) ;   Mcc(L,2) ; Ufinal(glGlobal:end)];
  end
  
+ % Coordenadas nodais deslocadas
+ 
+ DefNcoor = defCoord(SNcoord,Ufinal);
+ 
  % Plot
+    figure;
+    hold on; axis equal;   
  
-    plotNodes(SNcoord,Ufinal)   
-    plotElements(SNcoord, Nconec)
-
-
- 
+    plotNodes(SNcoord,'bo');
+    plotNodes(DefNcoor,'ro');
+    plotElements(SNcoord, Nconec,'k')
+    plotElements(DefNcoor, Nconec,'g')
  % Calculo de deformações
  
  % Calculo de tensões

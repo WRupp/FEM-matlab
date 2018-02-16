@@ -17,16 +17,16 @@ if detJ<=0
 end
 
 J = [a b; c d]'; 
-invJ = inv(J) ;
+inveJ = inv(J) ;
 % invJ = 1/detJ * [ d -b; -c a];
 
 dN1dE = [ -1 -1];
 dN2dE = [ 1 0];
 dN3dE = [ 0 1];
 
-dN1dx = invJ * dN1dE';
-dN2dx = invJ * dN2dE';
-dN3dx = invJ * dN3dE';
+dN1dx = inveJ * dN1dE';
+dN2dx = inveJ * dN2dE';
+dN3dx = inveJ * dN3dE';
 
 
 % Montando a Matriz de Derivadas B

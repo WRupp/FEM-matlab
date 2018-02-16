@@ -1,4 +1,4 @@
-function []=plotElements(SNcoord, Nconec,flagCor)
+function []=plotElements(SNcoord, Nconec,)
 % Plota os elementos a partir de uma matriz de coordenadas nodais e a
 % matriz de conectividade. 2D
 

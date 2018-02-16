@@ -7,24 +7,36 @@ Cd = Celi(E,v);
 
 %% Definição da Malha
 
-Ncoord = [ 1 0 0;
-           2 2 1;
-           3 0 1;
-           4 2 0;
-           5 4 0;
-           6 4 1;
-           7 0 2;
-           8 2 2;
-           9 4 2];    
-       
-Nconec = [1 1 4 3;
-          2 4 2 3;
-          3 4 5 2;
-          4 5 6 2;
-          5 2 7 3;
-          6 2 8 7;
-          7 2 6 8;
-          8 6 9 8];
+% Ncoord = [ 1 0 0;
+%            2 2 1;
+%            3 0 1;
+%            4 2 0;
+%            5 4 0;
+%            6 4 1;
+%            7 0 2;
+%            8 2 2;
+%            9 4 2]; 
+
+% Nconec = [1 1 4 3;
+%           2 4 2 3;
+%           3 4 5 2;
+%           4 5 6 2;
+%           5 2 7 3;
+%           6 2 8 7;
+%           7 2 6 8;
+%           8 6 9 8];
+
+
+caminho = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\InputFilesTest\';
+
+NodeNome = 'NodeFile.inp';
+ElemNome = 'ElemFile.inp';
+
+Ncoord = dlmread([caminho NodeNome]);
+
+Ncoord(:,4)=[];
+
+Nconec = dlmread([caminho ElemNome]);
 
 % Definições do tipo de Elemento
 
@@ -44,11 +56,11 @@ Nnos = size(Ncoord,1);
              7  0   2];      
  
          % Matriz de forças nodais
-   f=50000;
+   f=-50000;
    
-         Mfn=[9 f/2 1;
-              6 f/2 1;
-              5 f/2 1];
+         Mfn=[9 f 2;
+              6 f 2;
+              5 f 2];
  
 %% Processamento  
 
@@ -91,24 +103,24 @@ end
  
 % Eliminação de linhas/colunas
  
- Kfinal = Kglobal;
- Ffinal = F;
+ Kdel = Kglobal;
+ Fdel = F;
  
  for i=0:size(Mcc,1)-1
      
  Nno = Mcc(end-i,1);
  GL = Mcc(end-i,3);
  
- Kfinal(2*(Nno-1)+GL,:)=[];
- Kfinal(:,2*(Nno-1)+GL)=[];
+ Kdel(2*(Nno-1)+GL,:)=[];
+ Kdel(:,2*(Nno-1)+GL)=[];
  
- Ffinal(2*(Nno-1)+GL) = [];
+ Fdel(2*(Nno-1)+GL) = [];
  
  end
  
  % Calculo dos deslocamentos
  
- U = Kfinal  \ Ffinal ;
+ U = Kdel  \ Fdel ;
   
  
  %% Pós processamento
@@ -122,21 +134,29 @@ end
  
  % Coordenadas nodais deslocadas
  
-    DefNcoor = defCoord(SNcoord,Ufinal);
+   DefNcoor = defCoord(SNcoord,Ufinal);
  
- % Plot
-    figure;
-    hold on; axis equal;   
- 
-    plotNodes(SNcoord,'bo');
-    plotNodes(DefNcoor,'ro');
-    plotElements(SNcoord, Nconec,'k')
-    plotElements(DefNcoor, Nconec,'m')
-    
  % Calculo de deformações
 
    MDef = DefLin(Nconec,SNcoord,Ufinal);
  
  % Calculo de tensões
  
-   Mtensao = CalcTensao(Cd,MDef);      
+   Mtensao = CalcTensao(Cd,MDef);  
+   
+ % Calculo de Reações
+ 
+  Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples. 
+   
+ %% Plot
+ 
+    figure;
+    hold on; axis equal;   
+ 
+%     plotNodes(SNcoord,'bo');
+    plotElements(SNcoord, Nconec,'k')
+    
+%     plotNodes(DefNcoor,'ro');
+    plotElements(DefNcoor, Nconec,'m')
+      
+   

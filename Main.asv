@@ -44,11 +44,11 @@ Nnos = size(Ncoord,1);
              7  0   2];      
  
          % Matriz de forças nodais
-   f=5000;
+   f=50000;
    
          Mfn=[9 f/2 1;
               6 f/2 1;
-              5 f/2 2];
+              5 f/2 1];
  
 %% Processamento  
 
@@ -89,7 +89,6 @@ for i=1:size(Mfn,1)
    F(2*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
 end
  
-
 % Eliminação de linhas/colunas
  
  Kfinal = Kglobal;
@@ -115,29 +114,34 @@ end
  %% Pós processamento
  
 % Reconstruido os vetor de deslocamentos
-    Ufinal = U;
-     for L = 1:size(Mcc,1)
+   Ufinal = U;
+   for L = 1:size(Mcc,1)
       glGlobal= Mcc(L,1)*ngl-2 +  Mcc(L,3);
       Ufinal = [Ufinal(1:glGlobal-1) ;   Mcc(L,2) ; Ufinal(glGlobal:end)];
-     end
+   end
  
  % Coordenadas nodais deslocadas
  
     DefNcoor = defCoord(SNcoord,Ufinal);
  
- % Plot
+ % Calculo de deformações
+
+   MDef = DefLin(Nconec,SNcoord,Ufinal);
+ 
+ % Calculo de tensões
+ 
+   Mtensao = CalcTensao(Cd,MDef);  
+   
+ % Calculo de Reações   
+   
+ %% Plot
+ 
     figure;
     hold on; axis equal;   
  
     plotNodes(SNcoord,'bo');
     plotNodes(DefNcoor,'ro');
     plotElements(SNcoord, Nconec,'k')
-%     plotElements(DefNcoor, Nconec,'m')
-    
- % Calculo de deformações
-
+    plotElements(DefNcoor, Nconec,'m')
+      
    
- 
- % Calculo de tensões
- 
- 

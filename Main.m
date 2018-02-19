@@ -18,6 +18,8 @@ ElemNome = 'ElemFile.inp';
 %Output
 caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
 Unome = 'Deslocamentos_Nodais.txt';
+Tnome = 'Tensão_elemento.txt';
+Defnome =  'Desformacao_elemento.txt';
 
 %% Definição do material
 E = 2e5;
@@ -50,27 +52,21 @@ Nnos = size(Ncoord,1);
     Mcc = set2Mcc(Set,0,1,[]);
     Mcc = set2Mcc(Set,0,2,Mcc);
     
- 
-         % Matriz de forcas nodais
+    % Matriz de forcas nodais
          
     xmax=max(Ncoord(:,2)); % se eu soubesse a priori seria melhor
     Set2 = NodePosFinder(Ncoord,xmax);
     
-    f= -500;
-    Mfn = set2Mcc(Set2,f,1,[]);
+    f= -50;
+    Mfn = set2Mcc(Set2,f,2,[]);
 %     Mfn = set2Mcc(Set2,f,2,Mfn);         
          
-
-   
-
- 
 %% Processamento  
 
 % Declaração inicial de Variaveis
 
 Kglobal = zeros(ngl*Nnos);
 F=zeros(ngl*Nnos,1);
-
 
 % Reorganiza a matriz de coordenadas nodais (numeração crescente)
     SNcoord = sortrows(Ncoord);
@@ -123,7 +119,6 @@ end
  % Calculo dos deslocamentos
  
  U = Kdel  \ Fdel ;
-  
  
  %% Pós processamento
  
@@ -133,11 +128,11 @@ end
       glGlobal= Mcc(L,1)*ngl-2 +  Mcc(L,3);
       Ufinal = [Ufinal(1:glGlobal-1) ;   Mcc(L,2) ; Ufinal(glGlobal:end)];
    end
- 
+
  % Coordenadas nodais deslocadas
  
    DefNcoor = defCoord(SNcoord,Ufinal);
- 
+
  % Calculo de deformações
 
    MDef = DefLin(Nconec,SNcoord,Ufinal);
@@ -146,9 +141,11 @@ end
  
    Mtensao = CalcTensao(Cd,MDef);  
    
+   VM = vonMises(Mtensao);
  % Calculo de Reações
  
   Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples. 
+  
    
  %% Plot
  
@@ -161,11 +158,11 @@ end
     plotNodes(DefNcoor,'ro');
     plotElements(DefNcoor, Nconec,'m')
     
-%% Saida de dados
+%% Saida de dados  
 
-    
-
-    escreveU(Ufinal,[caminhoInput Unome]);
+    escreveDeslocamento(Ufinal,[caminhoOutput Unome]);
+    escreveTensao(Mtensao,[caminhoOutput Tnome]);
+    escreveDeformacao(MDef,[caminhoOutput Defnome]);
 
       
    

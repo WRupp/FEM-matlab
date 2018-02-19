@@ -10,13 +10,13 @@ addpath(genpath(folder));
 
 %% Definição dos arquivos de entrada e saida
 %Input
-caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\NewMalha\';
+caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\NovaMalha\';
 
 NodeNome = 'NodeFile.inp';
 ElemNome = 'ElemFile.inp';
 
 %Output
-caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
+caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
 Unome = 'Deslocamentos_Nodais.txt';
 
 %% Definição do material
@@ -123,21 +123,21 @@ end
  % Calculo dos deslocamentos
  
  U = Kdel  \ Fdel ;
-  
+ 
  
  %% Pós processamento
  
-% Reconstruido os vetor de deslocamentos
+% Reconstruindo o vetor de deslocamentos
    Ufinal = U;
    for L = 1:size(Mcc,1)
       glGlobal= Mcc(L,1)*ngl-2 +  Mcc(L,3);
       Ufinal = [Ufinal(1:glGlobal-1) ;   Mcc(L,2) ; Ufinal(glGlobal:end)];
    end
- 
+
  % Coordenadas nodais deslocadas
  
    DefNcoor = defCoord(SNcoord,Ufinal);
- 
+
  % Calculo de deformações
 
    MDef = DefLin(Nconec,SNcoord,Ufinal);
@@ -161,9 +161,7 @@ end
     plotNodes(DefNcoor,'ro');
     plotElements(DefNcoor, Nconec,'m')
     
-%% Saida de dados
-
-    
+%% Saida de dados  
 
     escreveU(Ufinal,[caminhoInput Unome]);
 

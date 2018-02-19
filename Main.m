@@ -4,9 +4,24 @@
 
 
 clear; close all;
+% Determina e adiciona todas as subfolders
+folder = fileparts(which(mfilename)); 
+addpath(genpath(folder));
+
+%% Definição dos arquivos de entrada e saida
+%Input
+caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\NovaMalha\';
+
+NodeNome = 'NodeFile.inp';
+ElemNome = 'ElemFile.inp';
+
+%Output
+caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
+Unome = 'Deslocamentos_Nodais.txt';
+
 %% Definição do material
 E = 2e5;
-v = 0.4;
+v = 0.3;
 Cd = Celi(E,v);
 
 %% Definições do tipo de Elemento
@@ -14,16 +29,11 @@ Cd = Celi(E,v);
 ngl=2;
 NnosElemento = 3;  
 
+
 %% Definição da Malha
 
-% caminho = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\InputFilesTest\';
-caminho = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\NewMalha\';
-
-NodeNome = 'NodeFile.inp';
-ElemNome = 'ElemFile.inp';
-
-CaminhoArquivoNo = [caminho NodeNome ];
-CaminhoArquivoElem = [caminho ElemNome ];
+CaminhoArquivoNo = [caminhoInput NodeNome ];
+CaminhoArquivoElem = [caminhoInput ElemNome ];
 
 [Ncoord,Nconec] = LeMalha(CaminhoArquivoNo,CaminhoArquivoElem);
 
@@ -41,14 +51,14 @@ Nnos = size(Ncoord,1);
     Mcc = set2Mcc(Set,0,2,Mcc);
     
  
-         % Matriz de forÃ§as nodais
+         % Matriz de forcas nodais
          
     xmax=max(Ncoord(:,2)); % se eu soubesse a priori seria melhor
     Set2 = NodePosFinder(Ncoord,xmax);
     
-    f=-500;
-    Mfn = set2Mcc(Set2,0,1,[]);
-    Mfn = set2Mcc(Set2,f,2,Mfn);         
+    f= -500;
+    Mfn = set2Mcc(Set2,f,1,[]);
+%     Mfn = set2Mcc(Set2,f,2,Mfn);         
          
 
    
@@ -117,7 +127,7 @@ end
  
  %% Pós processamento
  
-% Reconstruido os vetor de deslocamentos
+% Reconstruindo o vetor de deslocamentos
    Ufinal = U;
    for L = 1:size(Mcc,1)
       glGlobal= Mcc(L,1)*ngl-2 +  Mcc(L,3);
@@ -150,5 +160,12 @@ end
     
     plotNodes(DefNcoor,'ro');
     plotElements(DefNcoor, Nconec,'m')
+    
+%% Saida de dados
+
+    
+
+    escreveU(Ufinal,[caminhoInput Unome]);
+
       
    

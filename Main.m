@@ -149,20 +149,17 @@ end
    
  %% Plot
  
-    figure;
-    hold on; axis equal;   
- 
-    plotNodes(SNcoord,'bo');
-    plotElements(SNcoord, Nconec,'k')
+    plotDefIndef(SNcoord, Nconec,DefNcoor);
     
-    plotNodes(DefNcoor,'ro');
-    plotElements(DefNcoor, Nconec,'m')
+    plotMap(Mtensao(:,2),DefNcoor,Nconec);
+    plotMap(MDef(:,2),DefNcoor,Nconec); % Colormap Deformacao X    
+    plotMap(VM(:,2),DefNcoor,Nconec); % Colormap VonMises
     
 %% Saida de dados  
 
-    escreveDeslocamento(Ufinal,[caminhoOutput Unome]);
-    escreveTensao(Mtensao,[caminhoOutput Tnome]);
-    escreveDeformacao(MDef,[caminhoOutput Defnome]);
+%     escreveDeslocamento(Ufinal,[caminhoOutput Unome]);
+%     escreveTensao(Mtensao,[caminhoOutput Tnome]);
+%     escreveDeformacao(MDef,[caminhoOutput Defnome]);
 
       
    

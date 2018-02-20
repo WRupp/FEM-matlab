@@ -65,7 +65,7 @@ Nnos = size(Ncoord,1);
 % Declaração inicial de Variaveis
 
 Kglobal = zeros(ngl*Nnos);
-F=zeros(ngl*Nnos,1);
+F = zeros(ngl*Nnos,1);
 
 % Reorganiza a matriz de coordenadas nodais (numeração crescente)
     SNcoord = sortrows(Ncoord);

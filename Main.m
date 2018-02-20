@@ -10,16 +10,25 @@ addpath(genpath(folder));
 
 %% Definição dos arquivos de entrada e saida
 %Input
-caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\NovaMalha\';
+% caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\NovaMalha\';
+% NodeNome = 'NodeFile.inp';
+% ElemNome = 'ElemFile.inp';
 
-NodeNome = 'NodeFile.inp';
-ElemNome = 'ElemFile.inp';
+    caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
 
+    inpNome = 'Job-1.inp';
+    
 %Output
 caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
 Unome = 'Deslocamentos_Nodais.txt';
 Tnome = 'Tensão_elemento.txt';
 Defnome =  'Desformacao_elemento.txt';
+
+%Full path
+% CaminhoArquivoNo = [caminhoInput NodeNome ];
+% CaminhoArquivoElem = [caminhoInput ElemNome ];
+INPfile = [caminhoInput inpNome];  
+
 
 %% Definição do material
 E = 2e5;
@@ -33,10 +42,8 @@ NnosElemento = 3;
 
 %% Definição da Malha
 
-CaminhoArquivoNo = [caminhoInput NodeNome ];
-CaminhoArquivoElem = [caminhoInput ElemNome ];
-
-[Ncoord,Nconec] = LeMalha(CaminhoArquivoNo,CaminhoArquivoElem);
+% [Ncoord,Nconec] = LeMalha(CaminhoArquivoNo,CaminhoArquivoElem);
+    [Ncoord,Nconec] = leINP(INPfile);
 
 Nnos = size(Ncoord,1); 
 
@@ -150,15 +157,15 @@ end
  
     plotDefIndef(SNcoord, Nconec,DefNcoor);
     
-    plotMap(Mtensao(:,2),DefNcoor,Nconec);
-    plotMap(MDef(:,2),DefNcoor,Nconec); % Colormap Deformacao X    
-    plotMap(VM(:,2),DefNcoor,Nconec); % Colormap VonMises
+    plotMap(Mtensao(:,2),DefNcoor,Nconec); title('\sigma _{xx}');
+    plotMap(MDef(:,2),DefNcoor,Nconec); title('\epsilon _{xx}');
+    plotMap(VM(:,2),DefNcoor,Nconec);  title('Von Mises');
     
 %% Saida de dados  
 
-%     escreveDeslocamento(Ufinal,[caminhoOutput Unome]);
-%     escreveTensao(Mtensao,[caminhoOutput Tnome]);
-%     escreveDeformacao(MDef,[caminhoOutput Defnome]);
+    escreveDeslocamento(Ufinal,[caminhoOutput Unome]);
+    escreveTensao(Mtensao,[caminhoOutput Tnome]);
+    escreveDeformacao(MDef,[caminhoOutput Defnome]);
 
       
    

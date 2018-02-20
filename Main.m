@@ -31,7 +31,6 @@ Cd = Celi(E,v);
 ngl=2;
 NnosElemento = 3;  
 
-
 %% Definição da Malha
 
 CaminhoArquivoNo = [caminhoInput NodeNome ];

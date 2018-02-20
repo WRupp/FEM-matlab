@@ -19,7 +19,7 @@ colormap jet;
         X = [X; X(1)];
         Y = [Y; Y(1)];
 
-        fill(X,Y,Map(k));    
+        patch(X,Y,Map(k));    
     end
 end
 

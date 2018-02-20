@@ -1,4 +1,4 @@
-function Kglobal = AssemblyGlobal(Kglobal,NnosElemento,Nconec,Kelem,k)
+function Kglobal = SomaNaGlobal(Kglobal,NnosElemento,Nconec,Kelem,k)
 % Assembly da Matriz de Rigidez Global
 % Alguns números 2 foram hardcoded pq o numero de graus de liberdade ngl é
 % 2 

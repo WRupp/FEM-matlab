@@ -45,7 +45,7 @@ NnosElemento = 3;
 % [Ncoord,Nconec] = LeMalha(CaminhoArquivoNo,CaminhoArquivoElem);
     [Ncoord,Nconec] = leINP(INPfile);
 
-Nnos = size(Ncoord,1); 
+    Nnos = size(Ncoord,1); 
 
 % Condições de contorno 
  
@@ -80,24 +80,7 @@ F = zeros(ngl*Nnos,1);
     
 % Assembly da matriz de rigidez global
 
-for k = 1: size(Nconec,1);
-    % Acha os nós do elemento
-    n1 = Nconec(k,2);
-    n2 = Nconec(k,3);
-    n3 = Nconec(k,4);
-    
-    % Acha a posição dos nós
-    X=[SNcoord(n1,2);SNcoord(n2,2);SNcoord(n3,2)];
-    Y=[SNcoord(n1,3);SNcoord(n2,3);SNcoord(n3,3)];
-        
-    % Geração da matriz elementar
-    Kelem = Ketp(X,Y,Cd);
-    
-    % Assembly no elemento na Global    
-
-    Kglobal = AssemblyGlobal(Kglobal,NnosElemento,Nconec,Kelem,k); 
-   
-end
+    Kglobal = AssemblyDaGlobal(Nconec,SNcoord,Kglobal,Cd);
 
 % Assembly do vetor de forças
 

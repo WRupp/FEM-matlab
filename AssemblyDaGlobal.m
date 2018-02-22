@@ -9,8 +9,9 @@ n=zeros(1,NnosElemento);
         for i = 1: NnosElemento
         n(i) = Nconec(k,i+1);
         end
-
-        % Acha a posição dos nós
+        
+        % AQUI TEM QUE MUDAR PARA NUMERO DE NÓS VARIAVEL
+        % Acha a posição dos nós 
         X=[SNcoord(n(1),2);SNcoord(n(2),2);SNcoord(n(3),2)];
         Y=[SNcoord(n(1),3);SNcoord(n(2),3);SNcoord(n(3),3)];
 

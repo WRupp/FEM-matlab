@@ -1,0 +1,13 @@
+
+p = maior grau dos polinomios da matriz B, ao quadrado. pois B'B. E ainda somente para um material homogeneo no elemento.
+
+
+np = (p+1)/2;
+
+para uma integração exata. 
+
+
+no caso para triangular quadrático o maior grau é 1. logo p = 1^2 = 1
+np = (1+1)/2 = 1
+
+isto é, é necessario apenas um ponto de gauss para fazer a integracao.

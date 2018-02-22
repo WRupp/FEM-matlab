@@ -16,7 +16,7 @@ addpath(genpath(folder));
 
     caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
 
-    inpNome = 'Job-1.inp';
+    inpNome = 'Job-2.inp';
     
 %Output
 caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
@@ -80,7 +80,7 @@ F = zeros(ngl*Nnos,1);
     
 % Assembly da matriz de rigidez global
 
-    Kglobal = AssemblyDaGlobal(Nconec,SNcoord,Kglobal,Cd);
+    Kglobal = AssemblyDaGlobal2(Nconec,SNcoord,Kglobal,Cd);
 
 % Assembly do vetor de forças
 

@@ -17,10 +17,10 @@ function [Ke] = intTriQuadratico (X,Y,Cd)
  np  = 1;
 
  % A integração é feita
-    Ke = zeros(12) ; % hardcoded
+    Ke = zeros ;
 
  	for j = 1 : np
- 	B = Btriquad(e1,e2);
+ 	B = Btriquad(e1,e2,X,Y);
  	P = B' * Cd * B;
  	detJ = det( J_TriQuad(e1,e2,X,Y) );
  	Ke = Ke + P * detJ * Wj;

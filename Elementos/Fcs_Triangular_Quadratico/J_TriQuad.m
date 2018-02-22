@@ -1,4 +1,4 @@
-function [J] = Jacobiana(e1,e2,X,Y)
+function [J] = J_TriQuad(e1,e2,X,Y)
 	% Calcula a matriz e o determinante da matriz jacobiana nos pontos
 	% e1 e e2 ( ou \epsilon e \eta)
 	% X é o vetor coluna de coordenadas nodais x

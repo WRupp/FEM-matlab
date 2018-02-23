@@ -8,7 +8,7 @@ function [Ke] = intTriQuadratico (X,Y,Cd)
  e1 = 1/3;
  e2 = 1/3;
 
- % E o peso
+ %  peso
 
  Wj = 1;
 
@@ -20,9 +20,9 @@ function [Ke] = intTriQuadratico (X,Y,Cd)
     Ke = zeros(12) ; % hardcoded
 
  	for j = 1 : np
- 	B = Btriquad(e1,e2);
+    detJ = det( J_TriQuad(e1,e2,X,Y) );
+ 	B =  Btriquad(e1,e2);
  	P = B' * Cd * B;
- 	detJ = det( J_TriQuad(e1,e2,X,Y) );
  	Ke = Ke + P * detJ * Wj;
  	end
 

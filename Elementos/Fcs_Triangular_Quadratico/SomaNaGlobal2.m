@@ -10,18 +10,26 @@ ngl=2;
  for j = 1 : NnosElemento
    NnoGlobal = Nconec(k,1+j);    
    cont=1;
-      for i=1:ngl-1:size(Kelem,1)-(size(Nconec,2)-1); % 
+
+   Nglobal = local2global(GLpNo,Nnos,Nconec,k);
+
+   Kglobal(Nglobal,Nglobal) = Kelem;
+
+
+
+
+   %   for i=1:ngl-1:size(Kelem,1)-(size(Nconec,2)-1); % 
           
       
-            Kzinho = Kelem (2*i-1:2*i-1+(ngl-1), ...
-                            2*j-1:2*j-1+(ngl-1));                       
+      %      Kzinho = Kelem (2*i-1:2*i-1+(ngl-1), ...
+      %                      2*j-1:2*j-1+(ngl-1));                       
                       
 
-            Kglobal(2*Nconec(k,1+cont)-1  : 2*Nconec(k,1+cont) , ...
-                    2*NnoGlobal-1  : 2*NnoGlobal ) = ...
-                    Kglobal(2*Nconec(k,1+cont)-1  : 2*Nconec(k,1+cont) , ...
-                    2*NnoGlobal-1  : 2*NnoGlobal ) + Kzinho ;            
-            cont=cont+1;
-       end  
+     %       Kglobal(2*Nconec(k,1+cont)-1  : 2*Nconec(k,1+cont) , ...
+     %               2*NnoGlobal-1  : 2*NnoGlobal ) = ...
+            %        Kglobal(2*Nconec(k,1+cont)-1  : 2*Nconec(k,1+cont) , ...
+     %               2*NnoGlobal-1  : 2*NnoGlobal ) + Kzinho ;            
+     %       cont=cont+1;
+    %   end  
  end
 end

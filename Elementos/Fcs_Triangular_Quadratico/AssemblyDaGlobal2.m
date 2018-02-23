@@ -18,10 +18,10 @@ NnosElemento = size(Nconec,2)-1;
 
         % Geração da matriz elementar
         Kelem = intTriQuadratico(X,Y,Cd);  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-
+     %   Kelem = Ketp(X,Y,Cd);  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
         % Assembly no elemento na Global    
 
-        Kglobal = SomaNaGlobal2(Kglobal,NnosElemento,Nconec,Kelem,k); 
+        Kglobal = SomaNaGlobal3(Kglobal,NnosElemento,Nconec,Kelem,k); 
 
     end
 end

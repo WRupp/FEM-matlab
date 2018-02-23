@@ -9,19 +9,18 @@ function [Ke] = intTriQuadratico (X,Y,Cd)
  e2 = 1/3;
 
  %  peso
-
  Wj = 1;
 
- % a integração é feita apenas em um ponto de integração (pode ser alterado)
-
+ % a integracao eh feita apenas em um ponto de integracao (pode ser alterado)
  np  = 1;
 
- % A integração é feita
+ % A integracao 
     Ke = zeros(12) ; % hardcoded
 
  	for j = 1 : np
-    detJ = det( J_TriQuad(e1,e2,X,Y) );
- 	B =  Btriquad(e1,e2);
+    J = J_TriQuad(e1,e2,X,Y);
+    detJ = det( J )
+ 	B = Btriquad(e1,e2,J);
  	P = B' * Cd * B;
  	Ke = Ke + P * detJ * Wj;
  	end

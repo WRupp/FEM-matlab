@@ -9,14 +9,10 @@ folder = fileparts(which(mfilename));
 addpath(genpath(folder));
 
 %% Definição dos arquivos de entrada e saida
+
 %Input
-% caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\NovaMalha\';
-% NodeNome = 'NodeFile.inp';
-% ElemNome = 'ElemFile.inp';
-
-    caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
-
-    inpNome = 'Job-2.inp';
+caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
+inpNome = 'Job-2.inp';
     
 %Output
 caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
@@ -25,8 +21,6 @@ Tnome = 'Tensão_elemento.txt';
 Defnome =  'Desformacao_elemento.txt';
 
 %Full path
-% CaminhoArquivoNo = [caminhoInput NodeNome ];
-% CaminhoArquivoElem = [caminhoInput ElemNome ];
 INPfile = [caminhoInput inpNome];  
 
 
@@ -43,7 +37,17 @@ NnosElemento = 3;
 %% Definição da Malha
 
 % [Ncoord,Nconec] = LeMalha(CaminhoArquivoNo,CaminhoArquivoElem);
-    [Ncoord,Nconec] = leINP(INPfile);
+ %   [Ncoord,Nconec] = leINP(INPfile);
+ 
+    Ncoord = [ 1 0 0;
+               2 1 0;
+               3 0 1;
+               4 0.5 0;
+               5 0.5 0.5;
+               6 0 0.5];
+           
+    Nconec = [1 1 2 3 4 5 6];
+               
 
     Nnos = size(Ncoord,1); 
 
@@ -79,8 +83,10 @@ F = zeros(ngl*Nnos,1);
     Mcc = sortrows(Mcc);
     
 % Assembly da matriz de rigidez global
-
+% AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
     Kglobal = AssemblyDaGlobal2(Nconec,SNcoord,Kglobal,Cd);
+    
+    sim = issymmetric(Kglobal)
 
 % Assembly do vetor de forças
 
@@ -119,17 +125,17 @@ end
    end
 
  % Coordenadas nodais deslocadas
- 
+ % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
    DefNcoor = defCoord(SNcoord,Ufinal);
 
  % Calculo de deformações
-
+% AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
    MDef = DefLin(Nconec,SNcoord,Ufinal);
  
  % Calculo de tensões
- 
+ % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
    Mtensao = CalcTensao(Cd,MDef);  
-   
+ % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO  
    VM = vonMises(Mtensao);
  % Calculo de Reações
  
@@ -137,7 +143,7 @@ end
   
    
  %% Plot
- 
+ % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
     plotDefIndef(SNcoord, Nconec,DefNcoor);
     
     plotMap(Mtensao(:,2),DefNcoor,Nconec); title('\sigma _{xx}');
@@ -145,7 +151,7 @@ end
     plotMap(VM(:,2),DefNcoor,Nconec);  title('Von Mises');
     
 %% Saida de dados  
-
+% AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
     escreveDeslocamento(Ufinal,[caminhoOutput Unome]);
     escreveTensao(Mtensao,[caminhoOutput Tnome]);
     escreveDeformacao(MDef,[caminhoOutput Defnome]);

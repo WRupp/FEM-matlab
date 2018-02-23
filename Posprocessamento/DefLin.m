@@ -8,18 +8,17 @@ function MDef = DefLin(Nconec,SNcoord,Ufinal)
     S=size(Nconec);
      
     MDef = zeros(S);
+    NnosElemento = size(Nconec,2)-1;
 
     for k = 1: S(1)
-        % Acha os nós do elemento
-        n(1) = Nconec(k,2);
-        n(2) = Nconec(k,3);
-        n(3) = Nconec(k,4);
+        
+        for i = 1: NnosElemento
+        X(i) = SNcoord(Nconec(k,i+1),2);
+        Y(i) = SNcoord(Nconec(k,i+1),3);
+        n(i) = Nconec(k,i+1);
+        end
 
-        % Acha a posição dos nós
-        X=[SNcoord(n(1),2);SNcoord(n(2),2);SNcoord(n(3),2)];
-        Y=[SNcoord(n(1),3);SNcoord(n(2),3);SNcoord(n(3),3)];
-
-        B = Btp(X,Y);
+        B = Btp(X,Y);  % AQUI ESTÁ FUNCIONANDO APENAS PARA UM TIPO DE ELEM
         
         sn = sortrows(n);
         

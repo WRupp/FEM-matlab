@@ -17,5 +17,5 @@ function [J] = J_TriQuad(e1,e2,X,Y)
 	Psi = MatrizGradienteTriQuad(e1,e2);
     % Jacobiana
 	J = Psi*Z;
-
+    
 end

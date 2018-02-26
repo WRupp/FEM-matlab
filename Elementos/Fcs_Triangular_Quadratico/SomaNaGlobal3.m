@@ -4,7 +4,7 @@ function Kglobal = SomaNaGlobal3(Kglobal,NnosElemento,Nconec,Kelem,k)
 
 % Alguns números 2 foram hardcoded pq o numero de graus de liberdade ngl é
 % 2 
-    ngl=2; % Foi HardCoded
+   ngl=2; % Foi HardCoded
 
    Nglobal = local2global(ngl,NnosElemento,Nconec,k); 
 

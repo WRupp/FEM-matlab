@@ -44,13 +44,13 @@ ngl=2;
                3 0 1;
                4 0.5 0;
                5 0.5 0.5;
-               6 0 0.5];
-%                7 1  1;
-%                8 1 0.5;
-%                9 0.5 1];
+               6 0 0.5;
+               7 1  1;
+               8 1 0.5;
+               9 0.5 1];
            
-    Nconec = [1 1 2 3 4 5 6];              
-     %         2 3 2 7 5 8 9];
+    Nconec = [1 1 2 3 4 5 6;              
+              2 3 2 7 5 8 9];
     %            
 
     Nnos = size(Ncoord,1); 
@@ -60,23 +60,18 @@ ngl=2;
     % Matriz de deslocamentos nodais
     %  % Nno   U   GL (x=1, y=2)
     
-%     xmin=min(Ncoord(:,2)); % se eu soubesse a priori seria melhor
-%     Set = NodePosFinder(Ncoord,xmin);
-%     
-%     Mcc = set2Mcc(Set,0,1,[]);
-%     Mcc = set2Mcc(Set,0,2,Mcc);
-
-    Mcc = [1 0 1;
-           1 0 2;
-           3 0 1;
-           3 0 2];
+    xmin=min(Ncoord(:,2)); % se eu soubesse a priori seria melhor
+    Set = NodePosFinder(Ncoord,xmin);
     
+    Mcc = set2Mcc(Set,0,1,[]);
+    Mcc = set2Mcc(Set,0,2,Mcc);
+
     % Matriz de forcas nodais
          
     xmax=max(Ncoord(:,2)); % se eu soubesse a priori seria melhor
     Set2 = NodePosFinder(Ncoord,xmax);
     
-    f= -0.1;
+    f= -50;
     Mfn = set2Mcc(Set2,f,2,[]);
 %     Mfn = set2Mcc(Set2,f,2,Mfn);         
          

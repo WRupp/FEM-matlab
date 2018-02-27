@@ -7,6 +7,7 @@ function Kglobal = SomaNaGlobal3(Kglobal,NnosElemento,Nconec,Kelem,k)
    ngl=2; % Foi HardCoded
 
    Nglobal = local2global(ngl,NnosElemento,Nconec,k); 
+%    Nglobal = sort(Nglobal);
 
    Kglobal(Nglobal,Nglobal) = Kglobal(Nglobal,Nglobal) + Kelem;
 

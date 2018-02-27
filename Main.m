@@ -12,7 +12,7 @@ addpath(genpath(folder));
 
 %Input
 caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
-inpNome = 'Job-2.inp';
+inpNome = 'Job-1.inp';
     
 %Output
 caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
@@ -32,26 +32,26 @@ Cd = Celi(E,v);
 %% Definições do tipo de Elemento
 
 ngl=2;
-NnosElemento = 3;  
+% NnosElemento = 3;  
 
 %% Definição da Malha
 
 % [Ncoord,Nconec] = LeMalha(CaminhoArquivoNo,CaminhoArquivoElem);
- %   [Ncoord,Nconec] = leINP(INPfile);
+  %  [Ncoord,Nconec] = leINP(INPfile);
  
     Ncoord = [ 1 0 0;
                2 1 0;
                3 0 1;
                4 0.5 0;
                5 0.5 0.5;
-               6 0 0.5;
-               7 1  1;
-               8 1 0.5;
-               9 0.5 1];
+               6 0 0.5];
+%                7 1  1;
+%                8 1 0.5;
+%                9 0.5 1];
            
-    Nconec = [1 1 2 3 4 5 6;
-              2 3 2 7 5 8 9];
-               
+    Nconec = [1 1 2 3 4 5 6];              
+     %         2 3 2 7 5 8 9];
+    %            
 
     Nnos = size(Ncoord,1); 
 
@@ -60,18 +60,23 @@ NnosElemento = 3;
     % Matriz de deslocamentos nodais
     %  % Nno   U   GL (x=1, y=2)
     
-    xmin=min(Ncoord(:,2)); % se eu soubesse a priori seria melhor
-    Set = NodePosFinder(Ncoord,xmin);
-    
-    Mcc = set2Mcc(Set,0,1,[]);
-    Mcc = set2Mcc(Set,0,2,Mcc);
+%     xmin=min(Ncoord(:,2)); % se eu soubesse a priori seria melhor
+%     Set = NodePosFinder(Ncoord,xmin);
+%     
+%     Mcc = set2Mcc(Set,0,1,[]);
+%     Mcc = set2Mcc(Set,0,2,Mcc);
+
+    Mcc = [1 0 1;
+           1 0 2;
+           3 0 1;
+           3 0 2];
     
     % Matriz de forcas nodais
          
     xmax=max(Ncoord(:,2)); % se eu soubesse a priori seria melhor
     Set2 = NodePosFinder(Ncoord,xmax);
     
-    f= -50;
+    f= -0.1;
     Mfn = set2Mcc(Set2,f,2,[]);
 %     Mfn = set2Mcc(Set2,f,2,Mfn);         
          
@@ -90,7 +95,7 @@ F = zeros(ngl*Nnos,1);
 % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
     Kglobal = AssemblyDaGlobal2(Nconec,SNcoord,Kglobal,Cd);
     
-    sim = issymmetric(Kglobal)
+    aa=eigs(Kglobal);
 
 % Assembly do vetor de forças
 
@@ -100,27 +105,14 @@ end
  
 % Eliminação de linhas/colunas
  
- Kdel = Kglobal;
- Fdel = F;
- 
- for i=0:size(Mcc,1)-1
-     
- Nno = Mcc(end-i,1);
- GL = Mcc(end-i,3);
- 
- Kdel(2*(Nno-1)+GL,:)=[];
- Kdel(:,2*(Nno-1)+GL)=[];
- 
- Fdel(2*(Nno-1)+GL) = [];
- 
- end
+[Kdel,Fdel] = constringeK (Kglobal,F,Mcc,ngl);
  
  % Calculo dos deslocamentos
  
  U = Kdel  \ Fdel ;
  
  %% Pós processamento
- 
+ % AQUI ATUALIZAR PARA O GL
 % Reconstruindo o vetor de deslocamentos
    Ufinal = U;
    for L = 1:size(Mcc,1)
@@ -134,31 +126,31 @@ end
 
  % Calculo de deformações
 % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-   MDef = DefLin(Nconec,SNcoord,Ufinal);
+%    MDef = DefLin(Nconec,SNcoord,Ufinal);
  
  % Calculo de tensões
  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-   Mtensao = CalcTensao(Cd,MDef);  
+%    Mtensao = CalcTensao(Cd,MDef);  
  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO  
-   VM = vonMises(Mtensao);
+%    VM = vonMises(Mtensao);
  % Calculo de Reações
  
-  Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples. 
+   Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples. 
   
    
  %% Plot
  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-    plotDefIndef(SNcoord, Nconec,DefNcoor);
-    
-    plotMap(Mtensao(:,2),DefNcoor,Nconec); title('\sigma _{xx}');
-    plotMap(MDef(:,2),DefNcoor,Nconec); title('\epsilon _{xx}');
-    plotMap(VM(:,2),DefNcoor,Nconec);  title('Von Mises');
+%     plotDefIndef(SNcoord, Nconec,DefNcoor);
+%     
+%     plotMap(Mtensao(:,2),DefNcoor,Nconec); title('\sigma _{xx}');
+%     plotMap(MDef(:,2),DefNcoor,Nconec); title('\epsilon _{xx}');
+%     plotMap(VM(:,2),DefNcoor,Nconec);  title('Von Mises');
     
 %% Saida de dados  
 % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-    escreveDeslocamento(Ufinal,[caminhoOutput Unome]);
-    escreveTensao(Mtensao,[caminhoOutput Tnome]);
-    escreveDeformacao(MDef,[caminhoOutput Defnome]);
+%     escreveDeslocamento(Ufinal,[caminhoOutput Unome]);
+%     escreveTensao(Mtensao,[caminhoOutput Tnome]);
+%     escreveDeformacao(MDef,[caminhoOutput Defnome]);
 
       
    

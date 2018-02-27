@@ -11,7 +11,7 @@ function [Ke] = intTriQuadratico (X,Y,Cd)
  %  peso
  W = 1;
 
- % a integracao eh feita apenas em um ponto de integracao (pode ser alterado)
+ % a integracao e feita apenas em um ponto de integracao (pode ser alterado)
     np  = 1;
 
  % A integracao 
@@ -20,9 +20,13 @@ function [Ke] = intTriQuadratico (X,Y,Cd)
  	for j = 1 : np
     J = J_TriQuad(e1,e2,X,Y);
  	B = Btriquad(e1,e2,J);
- 	Polinomio = B' * Cd * B;
+    
+ 	Polinomio = transpose(B) * Cd * B;
  	Ke = Ke + Polinomio *(1/2* det(J)) * W(j); % Aqui o termo de 1/2 deve ser alterado
-    cond(Polinomio)                               % Se outro elemento for utilizado
+                                  % Se outro elemento for utilizado
+%     Area =   (1/2* det(J))  ;                        
+%     Ke_sym = 1/2*(transpose(Ke) + Ke);
+%     dif = Ke - Ke_sym;     
  	end
 
  end

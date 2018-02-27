@@ -1,7 +1,7 @@
 function Nglobal = local2global(GLpNo,Nnos,Nconec,k)
-	% Mapeia os nó locais para o seu respectivo nó global e o respectivo grau de liberdade.
+	% Mapeia os nos locais para o seu respectivo no global e o respectivo grau de liberdade.
 
-	% Pega o número de nós por elemento
+	% Pega o numero de nos por elemento
 %	Nnos = size (Nconec,2)-1;
 	%Numero de graus de liberdade por no
 %	GLpNo = 2 ; %Hardcoded

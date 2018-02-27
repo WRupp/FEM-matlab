@@ -2,7 +2,7 @@ function Kglobal = AssemblyDaGlobal2(Nconec,SNcoord,Kglobal,Cd)
 
 NElementos = size(Nconec,1);
 NnosElemento = size(Nconec,2)-1;
-% n=zeros(1,NnosElemento);
+
         X = zeros(NnosElemento,1); 
         Y = zeros(NnosElemento,1); 
 
@@ -18,7 +18,7 @@ NnosElemento = size(Nconec,2)-1;
 
         % Geração da matriz elementar
         Kelem = intTriQuadratico(X,Y,Cd);  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-     %   Kelem = Ketp(X,Y,Cd);  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
+%         Kelem = Ketp(X,Y,Cd);  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
      
         % Assembly no elemento na Global    
         Kglobal = SomaNaGlobal3(Kglobal,NnosElemento,Nconec,Kelem,k); 

@@ -12,7 +12,7 @@ addpath(genpath(folder));
 
 %Input
 caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
-inpNome = 'Job-1.inp';
+inpNome = 'Viguinha.inp';
     
 %Output
 caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
@@ -27,7 +27,7 @@ INPfile = [caminhoInput inpNome];
 %% Definição do material
 E = 2e5;
 v = 0.3;
-Cd = Celi(E,v);
+C = Celi(E,v);
 
 %% Definições do tipo de Elemento
 
@@ -37,21 +37,9 @@ ngl=2;
 %% Definição da Malha
 
 % [Ncoord,Nconec] = LeMalha(CaminhoArquivoNo,CaminhoArquivoElem);
-  %  [Ncoord,Nconec] = leINP(INPfile);
+    [Ncoord,Nconec] = leINP(INPfile);
  
-    Ncoord = [ 1 0 0;
-               2 1 0;
-               3 0 1;
-               4 0.5 0;
-               5 0.5 0.5;
-               6 0 0.5;
-               7 1  1;
-               8 1 0.5;
-               9 0.5 1];
-           
-    Nconec = [1 1 2 3 4 5 6;              
-              2 3 2 7 5 8 9];
-    %            
+     Ncoord(:,2) = 10*Ncoord(:,2);   % Deletar isso.     
 
     Nnos = size(Ncoord,1); 
 
@@ -71,7 +59,9 @@ ngl=2;
     xmax=max(Ncoord(:,2)); % se eu soubesse a priori seria melhor
     Set2 = NodePosFinder(Ncoord,xmax);
     
-    f= -50;
+    Fface= -0.1;
+    f = Fface/size(Fface,1) ;
+    
     Mfn = set2Mcc(Set2,f,2,[]);
 %     Mfn = set2Mcc(Set2,f,2,Mfn);         
          
@@ -88,10 +78,8 @@ F = zeros(ngl*Nnos,1);
     
 % Assembly da matriz de rigidez global
 % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-    Kglobal = AssemblyDaGlobal2(Nconec,SNcoord,Kglobal,Cd);
-    
-    aa=eigs(Kglobal);
-
+    Kglobal = AssemblyDaGlobal2(Nconec,SNcoord,Kglobal,C);
+  
 % Assembly do vetor de forças
 
 for i=1:size(Mfn,1)  
@@ -111,13 +99,13 @@ end
 % Reconstruindo o vetor de deslocamentos
    Ufinal = U;
    for L = 1:size(Mcc,1)
-      glGlobal= Mcc(L,1)*ngl-2 +  Mcc(L,3);
+      glGlobal= ngl*(Mcc(L,1)-1) +  Mcc(L,3);
       Ufinal = [Ufinal(1:glGlobal-1) ;   Mcc(L,2) ; Ufinal(glGlobal:end)];
    end
 
  % Coordenadas nodais deslocadas
  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-   DefNcoor = defCoord(SNcoord,Ufinal);
+    DefNcoor = defCoord(SNcoord,Ufinal);
 
  % Calculo de deformações
 % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO

@@ -1,0 +1,12 @@
+VISUALIZACAO
+
+ - Melhoria e generalizacao dos processos de visualizacao dos resultados
+
+CONSISTENCIA
+
+ - Rever as funcoes de soma na global. Deixar generalista.
+ - Matriz de deformacoes B. Deixar o resultado em gama ou exy.
+
+IMPLEMENTACAO 
+
+ - Estudo e implementacao da carga nodal consistente.

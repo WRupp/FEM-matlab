@@ -13,6 +13,7 @@ addpath(genpath(folder));
 %Input
 caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
 inpNome = 'Viguinha.inp';
+% inpNome = 'Job-1.inp';
     
 %Output
 caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
@@ -27,12 +28,11 @@ INPfile = [caminhoInput inpNome];
 %% Definição do material
 E = 2e5;
 v = 0.3;
-C = Celi(E,v);
+C = Cept(E,v);
 
 %% Definições do tipo de Elemento
 
 ngl=2;
-% NnosElemento = 3;  
 
 %% Definição da Malha
 
@@ -57,13 +57,16 @@ ngl=2;
     % Matriz de forcas nodais
          
     xmax=max(Ncoord(:,2)); % se eu soubesse a priori seria melhor
-    Set2 = NodePosFinder(Ncoord,xmax);
+    SetDireita = NodePosFinder(Ncoord,xmax);
+    SetLinhaNeutraDir = NodePosYFinder(Ncoord(SetDireita,:),5/2);
     
-    Fface= -0.1;
-    f = Fface/size(Fface,1) ;
+    Fface= -1;
     
-    Mfn = set2Mcc(Set2,f,2,[]);
-%     Mfn = set2Mcc(Set2,f,2,Mfn);         
+    f = Fface;
+%      f = Fface/size(Set2,1) ; % Rever cargas nodais consistentes
+    
+    Mfn = set2Mcc( SetLinhaNeutraDir,f,2,[]);
+%     Mfn = set2Mcc(Set2,f,2,Mfn);       
          
 %% Processamento  
 
@@ -103,39 +106,23 @@ end
       Ufinal = [Ufinal(1:glGlobal-1) ;   Mcc(L,2) ; Ufinal(glGlobal:end)];
    end
 
+ % Organiza o vetor de deslocamentos por no  
+   Uorg = organizaU(Ufinal,ngl,Nnos);
  % Coordenadas nodais deslocadas
- % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
     DefNcoor = defCoord(SNcoord,Ufinal);
 
- % Calculo de deformações
-% AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-%    MDef = DefLin(Nconec,SNcoord,Ufinal);
- 
- % Calculo de tensões
- % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-%    Mtensao = CalcTensao(Cd,MDef);  
- % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO  
-%    VM = vonMises(Mtensao);
- % Calculo de Reações
- 
-   Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples. 
+ % Calculo das Reacoes
+    Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples.   
   
+%% Visualizacao    
+       
+%     posT3;
+    posT6;
+
+%% Problema Viga
+
+    Vuy = deslocLinhaNeutra(SNcoord,Uorg);
+    Comparacao_Viga;
    
- %% Plot
- % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-%      plotDefIndef(SNcoord, Nconec,DefNcoor);
-%    
-     plotDefIndefT6(SNcoord, Nconec,DefNcoor)
-
-%     plotMap(Mtensao(:,2),DefNcoor,Nconec); title('\sigma _{xx}');
-%     plotMap(MDef(:,2),DefNcoor,Nconec); title('\epsilon _{xx}');
-%     plotMap(VM(:,2),DefNcoor,Nconec);  title('Von Mises');
-    
-%% Saida de dados  
-% AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-%     escreveDeslocamento(Ufinal,[caminhoOutput Unome]);
-%     escreveTensao(Mtensao,[caminhoOutput Tnome]);
-%     escreveDeformacao(MDef,[caminhoOutput Defnome]);
-
       
    

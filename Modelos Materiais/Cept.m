@@ -5,5 +5,6 @@ function C = Cept (E,v)
 
 	C  = [1 v 0 ;
 		  v 1 0 ;
-		  0 0 (1-v)/2]
+		  0 0 (1-v)/2];
+    C = cte *C;
 end 

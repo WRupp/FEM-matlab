@@ -15,7 +15,6 @@ NnosElemento = size(Nconec,2)-1;
         Y(i) = SNcoord(Nconec(k,i+1),3);
         end
         
-
         % Geração da matriz elementar
         Kelem = intTriQuadratico(X,Y,Cd);  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
 %         Kelem = Ketp(X,Y,Cd);  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO

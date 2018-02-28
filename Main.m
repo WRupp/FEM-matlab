@@ -123,8 +123,10 @@ end
    
  %% Plot
  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-%     plotDefIndef(SNcoord, Nconec,DefNcoor);
-%     
+%      plotDefIndef(SNcoord, Nconec,DefNcoor);
+%    
+     plotDefIndefT6(SNcoord, Nconec,DefNcoor)
+
 %     plotMap(Mtensao(:,2),DefNcoor,Nconec); title('\sigma _{xx}');
 %     plotMap(MDef(:,2),DefNcoor,Nconec); title('\epsilon _{xx}');
 %     plotMap(VM(:,2),DefNcoor,Nconec);  title('Von Mises');

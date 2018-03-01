@@ -1,12 +1,20 @@
-VISUALIZACAO
-
- - Melhoria e generalizacao dos processos de visualizacao dos resultados
-
-CONSISTENCIA
-
- - Rever as funcoes de soma na global. Deixar generalista.
- - Matriz de deformacoes B. Deixar o resultado em gama ou exy.
-
 IMPLEMENTACAO 
 
  - Estudo e implementacao da carga nodal consistente.
+ - Modelo Axissimetrico
+ - Melhoria e generalizacao dos processos de visualizacao dos resultados
+ - Modelo Bi-linear
+ - Seção de Benchmarks (será?)
+ 
+CONSISTENCIA
+
+ - Rever as funcoes de soma na global. Deixar generalista.
+ - Matriz de deformacoes B. Deixar o resultado em gama ou exy?
+ - Muitas funcoes tem ngl=2 hardcoded
+
+
+
+
+Nao muito importante
+	- Como melhorar o processo de leitura de dados?
+

@@ -7,7 +7,7 @@ np = (p+1)/2;
 para uma integração exata. 
 
 
-no caso para triangular quadrático o maior grau é 1. logo p = 1^2 = 1
-np = (1+1)/2 = 1
+no caso para triangular quadrático o grau é 2. logo 
+np = (2+1)/2 = 2
 
 isto é, é necessario apenas um ponto de gauss para fazer a integracao.

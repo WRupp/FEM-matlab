@@ -1,4 +1,4 @@
-function Kglobal = SomaNaGlobal3(Kglobal,NnosElemento,Nconec,Kelem,k)
+function Kglobal = SomaNaGlobal(Kglobal,NnosElemento,Nconec,Kelem,k)
 % Assembly da Matriz de Rigidez Global
 
 

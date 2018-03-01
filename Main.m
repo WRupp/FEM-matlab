@@ -81,7 +81,7 @@ F = zeros(ngl*Nnos,1);
     
 % Assembly da matriz de rigidez global
 % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-    Kglobal = AssemblyDaGlobal2(Nconec,SNcoord,Kglobal,C);
+    Kglobal = AssemblyDaGlobal(Nconec,SNcoord,Kglobal,C);
   
 % Assembly do vetor de forças
 
@@ -121,8 +121,8 @@ end
 
 %% Problema Viga
 
-    Vuy = deslocLinhaNeutra(SNcoord,Uorg);
-    Comparacao_Viga;
+%     Vuy = deslocLinhaNeutra(SNcoord,Uorg);
+%     Comparacao_Viga;
    
       
    

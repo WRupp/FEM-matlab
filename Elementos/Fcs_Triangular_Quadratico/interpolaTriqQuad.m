@@ -1,4 +1,7 @@
 function  x = interpolaTriqQuad(e1,e2,X)
+	% determina o valor de uma variavel x no ponto (e1,e2)
+	% de acordo com os valores nodais daquele elemento.
+
 
 N(1) = (1-e1-e2)*(1-2*e1-2*e2);
 N(2) = e1 * (2*e1-1);

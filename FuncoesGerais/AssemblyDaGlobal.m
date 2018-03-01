@@ -1,4 +1,4 @@
-function Kglobal = AssemblyDaGlobal2(Nconec,SNcoord,Kglobal,Cd)
+function Kglobal = AssemblyDaGlobal(Nconec,SNcoord,Kglobal,Cd)
 
 NElementos = size(Nconec,1);
 NnosElemento = size(Nconec,2)-1;
@@ -20,7 +20,7 @@ NnosElemento = size(Nconec,2)-1;
 %          Kelem = Ketp(X,Y,Cd);  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
      
         % Assembly no elemento na Global    
-        Kglobal = SomaNaGlobal3(Kglobal,NnosElemento,Nconec,Kelem,k); 
+        Kglobal = SomaNaGlobal(Kglobal,NnosElemento,Nconec,Kelem,k); 
 
     end
 end

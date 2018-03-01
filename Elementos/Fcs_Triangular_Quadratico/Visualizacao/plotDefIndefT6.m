@@ -7,6 +7,6 @@ function []=plotDefIndefT6(SNcoord, Nconec,DefNcoor)
     plotT6(SNcoord, Nconec,'k')
     
 %     plotNodes(DefNcoor,'ro');
-    plotT6(DefNcoor, Nconec,'m')
+    plotT6(DefNcoor, Nconec,'b')
 
 end

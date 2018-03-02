@@ -17,4 +17,6 @@ CONSISTENCIA
 
 Nao muito importante
 	- Como melhorar o processo de leitura de dados?
+	- Muitas chamadas redundantes as funcoes e derivadas das funcoes de forma
+	- Muitas chamadas redundantes ao Jacobiano
 

@@ -28,7 +28,10 @@ INPfile = [caminhoInput inpNome];
 %% Definição do material
 E = 2e5;
 v = 0.3;
-C = Cept(E,v);
+
+% C = Celi(E,v);
+% C = Cept(E,v);
+C = Caxis(E,v);
 
 %% Definições do tipo de Elemento
 
@@ -98,7 +101,7 @@ end
  U = Kdel  \ Fdel ;
  
  %% Pós processamento
- % AQUI ATUALIZAR PARA O GL
+% AQUI ATUALIZAR PARA O GL
 % Reconstruindo o vetor de deslocamentos
    Ufinal = U;
    for L = 1:size(Mcc,1)
@@ -117,7 +120,7 @@ end
 %% Visualizacao    
        
 %     posT3;
-    posT6;
+%     posT6;
 
 %% Problema Viga
 

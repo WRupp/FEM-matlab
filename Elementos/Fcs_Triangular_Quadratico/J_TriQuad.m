@@ -14,7 +14,7 @@ function [J] = J_TriQuad(e1,e2,X,Y)
     % Concatenacao da posicao    
     Z = [X Y];
 	%Derivadas das funcoes de forma
-	Psi = MatrizGradienteTriQuad(e1,e2);
+	Psi = Derivadas_Axis_TriQuad(e1,e2);
     % Jacobiana
 	J = Psi*Z;
     

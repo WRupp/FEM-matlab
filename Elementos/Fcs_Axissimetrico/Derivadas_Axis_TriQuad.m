@@ -1,4 +1,4 @@
-function Psi = MatrizGradienteTriQuad(e1,e2)
+function Psi = Derivadas_Axis_TriQuad(e1,e2)
 	% A matriz de derivadas das funcoes de forma para o elemento triangular quadrático. Ver pg 259 da apostila de FEM
 	% A coluna indica o numero da funcao e a linha indica a variavel a qual a fc foi derivada
 

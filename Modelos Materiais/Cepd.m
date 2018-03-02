@@ -1,4 +1,4 @@
-function C = Celi (E,v)
+function C = Cepd (E,v)
 	% Entrega a matriz de propriedades materiais para um material
     %elástico linear com modulo de elasticidade E e poisson v.
     % Caso de Estado Plano de deformações

@@ -11,9 +11,10 @@ addpath(genpath(folder));
 %% Definição dos arquivos de entrada e saida
 
 %Input
-caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
-inpNome = 'Viguinha.inp';
-% inpNome = 'Job-1.inp';
+% caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
+% inpNome = 'Viguinha.inp';
+caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Vaso de Pressao\';
+inpNome = 'MalhaVaso.inp';
     
 %Output
 caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
@@ -29,7 +30,7 @@ INPfile = [caminhoInput inpNome];
 E = 2e5;
 v = 0.3;
 
-% C = Celi(E,v);
+% C = Cepd(E,v);
 % C = Cept(E,v);
 C = Caxis(E,v);
 
@@ -42,34 +43,14 @@ ngl=2;
 % [Ncoord,Nconec] = LeMalha(CaminhoArquivoNo,CaminhoArquivoElem);
     [Ncoord,Nconec] = leINP(INPfile);
  
-     Ncoord(:,2) = 10*Ncoord(:,2);   % Deletar isso.     
+%      Ncoord(:,2) = 10*Ncoord(:,2);   % Deletar isso.     
 
     Nnos = size(Ncoord,1); 
 
 % Condições de contorno 
  
-    % Matriz de deslocamentos nodais
-    %  % Nno   U   GL (x=1, y=2)
-    
-    xmin=min(Ncoord(:,2)); % se eu soubesse a priori seria melhor
-    Set = NodePosFinder(Ncoord,xmin);
-    
-    Mcc = set2Mcc(Set,0,1,[]);
-    Mcc = set2Mcc(Set,0,2,Mcc);
-
-    % Matriz de forcas nodais
-         
-    xmax=max(Ncoord(:,2)); % se eu soubesse a priori seria melhor
-    SetDireita = NodePosFinder(Ncoord,xmax);
-    SetLinhaNeutraDir = NodePosYFinder(Ncoord(SetDireita,:),5/2);
-    
-    Fface= -1;
-    
-    f = Fface;
-%      f = Fface/size(Set2,1) ; % Rever cargas nodais consistentes
-    
-    Mfn = set2Mcc( SetLinhaNeutraDir,f,2,[]);
-%     Mfn = set2Mcc(Set2,f,2,Mfn);       
+%     CCviga;
+    CCVaso;
          
 %% Processamento  
 
@@ -98,12 +79,12 @@ end
  
  % Calculo dos deslocamentos
  
- U = Kdel  \ Fdel ;
+ Udel = Kdel  \ Fdel ;
  
  %% Pós processamento
 % AQUI ATUALIZAR PARA O GL
 % Reconstruindo o vetor de deslocamentos
-   Ufinal = U;
+   Ufinal = Udel;
    for L = 1:size(Mcc,1)
       glGlobal= ngl*(Mcc(L,1)-1) +  Mcc(L,3);
       Ufinal = [Ufinal(1:glGlobal-1) ;   Mcc(L,2) ; Ufinal(glGlobal:end)];
@@ -112,7 +93,7 @@ end
  % Organiza o vetor de deslocamentos por no  
    Uorg = organizaU(Ufinal,ngl,Nnos);
  % Coordenadas nodais deslocadas
-    DefNcoor = defCoord(SNcoord,Ufinal);
+   DefNcoor = defCoord(SNcoord,Ufinal);
 
  % Calculo das Reacoes
     Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples.   
@@ -122,10 +103,16 @@ end
 %     posT3;
 %     posT6;
 
+
+
 %% Problema Viga
 
 %     Vuy = deslocLinhaNeutra(SNcoord,Uorg);
 %     Comparacao_Viga;
-   
+
+%% Problema Vaso Pressao
+
+MDef = Def_Axis_TriQuad(Nconec,SNcoord,Ufinal);
+S_Axis = Tensao_Axis_TriQuad(MDef,C);
       
    

@@ -11,7 +11,7 @@ function P = P_Axis_TriQuad(e1,e2,R,Z,C)
 	J = J_Axis_TriQuad(e1,e2,R,Z);
 	Ji = 1/2 * det(J);
 
-	P = (2*pi) * transpose(B) * C * B * r * Ji;
+	P = (2*pi* r ) * transpose(B) * C * B * Ji;
 
 
 end

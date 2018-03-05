@@ -1,4 +1,4 @@
-% Códigos para FEM Linear Elástico em EPD
+% Códigos para FEM Linear Elástico - Pequenas Deformacoes
 % Fevereiro / 2018
 % Wagner Rupp
 
@@ -30,8 +30,8 @@ INPfile = [caminhoInput inpNome];
 E = 2e5;
 v = 0.3;
 
-% C = Cepd(E,v);
-% C = Cept(E,v);
+% C = Cepd(E,v); % Estado Plano de Tensao
+% C = Cept(E,v); % Estado Plano de 
 C = Caxis(E,v);
 
 %% Definições do tipo de Elemento
@@ -41,27 +41,29 @@ ngl=2;
 %% Definição da Malha
 
 % [Ncoord,Nconec] = LeMalha(CaminhoArquivoNo,CaminhoArquivoElem);
-    [Ncoord,Nconec] = leINP(INPfile);
+     [Ncoord,Nconec] = leINP(INPfile);
  
 %      Ncoord(:,2) = 10*Ncoord(:,2);   % Deletar isso.     
 
-    Nnos = size(Ncoord,1); 
+    
+
+    Nnos = size(Ncoord,1);
+    % Reorganiza a matriz de coordenadas nodais (numeração crescente)
+    SNcoord = sortrows(Ncoord);
 
 % Condições de contorno 
  
 %     CCviga;
     CCVaso;
+    
+    Mcc = sortrows(Mcc);
          
 %% Processamento  
 
 % Declaração inicial de Variaveis
 
 Kglobal = zeros(ngl*Nnos);
-F = zeros(ngl*Nnos,1);
-
-% Reorganiza a matriz de coordenadas nodais (numeração crescente)
-    SNcoord = sortrows(Ncoord);
-    Mcc = sortrows(Mcc);
+F = zeros(ngl*Nnos,1); 
     
 % Assembly da matriz de rigidez global
 % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
@@ -83,7 +85,7 @@ end
  
  %% Pós processamento
 % AQUI ATUALIZAR PARA O GL
-% Reconstruindo o vetor de deslocamentos
+ % Reconstruindo o vetor de deslocamentos
    Ufinal = Udel;
    for L = 1:size(Mcc,1)
       glGlobal= ngl*(Mcc(L,1)-1) +  Mcc(L,3);
@@ -92,18 +94,13 @@ end
 
  % Organiza o vetor de deslocamentos por no  
    Uorg = organizaU(Ufinal,ngl,Nnos);
+   
  % Coordenadas nodais deslocadas
    DefNcoor = defCoord(SNcoord,Ufinal);
 
  % Calculo das Reacoes
     Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples.   
   
-%% Visualizacao    
-       
-%     posT3;
-%     posT6;
-
-
 
 %% Problema Viga
 
@@ -112,7 +109,16 @@ end
 
 %% Problema Vaso Pressao
 
-MDef = Def_Axis_TriQuad(Nconec,SNcoord,Ufinal);
+MDef = Def_Axis_TriQuad2(Nconec,SNcoord,Ufinal);
 S_Axis = Tensao_Axis_TriQuad(MDef,C);
-      
+
+
+%% Visualizacao    
+       
+%     posT3;
+
+    posT6;
+%     plotMapT6(Uorg(:,1),SNcoord, Nconec);
+  
+     
    

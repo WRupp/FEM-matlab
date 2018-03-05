@@ -8,9 +8,9 @@ function [B] = B_Axis_TriQuad (e1,e2,R,Z,r)
 
 	Deriv = J \ Psi;
 
-	%  termos Ur / r 
+	% termos Ur / r 
 	Phi = vetorFuncoesForma(e1,e2);
-	%r = Phi*R;	% 
+	% r = Phi*R;	 
 	vr = Phi / r ;
 
 	% Assembly do B

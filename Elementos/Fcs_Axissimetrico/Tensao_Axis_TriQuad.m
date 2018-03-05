@@ -4,10 +4,10 @@ function S_Axis = Tensao_Axis_TriQuad(MDef,C)
     
     S_Axis = zeros (tamanhoM);
     
-    S_Axis(:,1:3) = MDef(:,1:3);
+    S_Axis(:,1) = MDef(:,1);
     
     % Calcula as tensoes
     for i = 1 : tamanhoM(1)              
-        S_Axis(i,4:7)= C * ( MDef(i,4:7))';        
+        S_Axis(i,2:5)= C * ( MDef(i,2:5))';        
     end
 end 

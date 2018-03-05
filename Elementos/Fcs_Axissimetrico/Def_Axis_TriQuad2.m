@@ -1,4 +1,4 @@
-function Def_Linear = Def_Axis_TriQuad(Nconec,SNcoord,Ufinal)
+function Def_Linear = Def_Axis_TriQuad2(Nconec,SNcoord,Ufinal)
   % Calcula deformacao axissimetrico T6
   % Entrega uma matriz contendo as deformações de cada elemento
   %[NºElem er e0 ez gama_xy] para o caso axissimetric
@@ -10,12 +10,15 @@ function Def_Linear = Def_Axis_TriQuad(Nconec,SNcoord,Ufinal)
     NnosElemento = size(Nconec,2)-1;
     GLpNo = 2;
     
-     np  = 3;
-    % Posicao dos pontos
-     e = [2/3 1/6;
-          1/6 1/6;
-          1/6 2/3];
-      
+    
+    % Posicao dos nos em coordenadas naturaris
+     e = [ 0 0;
+           1 0;
+           0 1;
+           0.5 0;
+           0.5 0.5;
+           0 0.5];
+                   
     contador = 1;
     
 
@@ -27,19 +30,15 @@ function Def_Linear = Def_Axis_TriQuad(Nconec,SNcoord,Ufinal)
         for i = 1: NnosElemento
         R(i,:) = SNcoord(Nconec(k,i+1),2);
         Z(i,1) = SNcoord(Nconec(k,i+1),3);
-       
-        %Verificar aqui
-        
-        
+                 
         Ue = [Ue ; Ufinal(GLpNo*(Nconec(k,i+1)-1)+1) ; Ufinal(GLpNo*( Nconec(k,i+1) -1 )+2)];
-            
         end
-        RZ = [R Z];
-        
-        % Loop nos pontos de Gauss
-        for j = 1 : np
+        for j = 1 : NnosElemento
+         RZ = [R Z];
+         
          e1 = e(j,1);  
          e2 = e(j,2);
+         
          
          Phi = vetorFuncoesForma(e1,e2);
          r =  Phi*R; % e calculado interpolando os valores nodais
@@ -50,11 +49,12 @@ function Def_Linear = Def_Axis_TriQuad(Nconec,SNcoord,Ufinal)
          PosGauss=  Phi * RZ;
          
          Def_Linear(contador,1) = contador;
-         Def_Linear(contador,2:3) = PosGauss;    
+%          Def_Linear(contador,2:3) = PosGauss;    
          
-         Def_Linear(contador,4:7) = (B*Ue)';
+         Def_Linear(contador,2:5) = (B*Ue)';
  
-         contador = contador+1;
+         
         end
+         contador = contador+1;                      
     end    
 end

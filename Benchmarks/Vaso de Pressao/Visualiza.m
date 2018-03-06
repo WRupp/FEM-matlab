@@ -1,14 +1,13 @@
 % Plot U
 
-% figure;
+figure;
+
+x = 50 :0.05 : 55;
+% F = scatteredInterpolant(S_Axis(:,1),S_Axis(:,2),S_Axis(:,3),'nearest');
+F = scatteredInterpolant(MDef(:,1),MDef(:,2),MDef(:,5),'natural');
+% F = scatteredInterpolant(SNcoord(:,2),SNcoord(:,3),Uorg(:,1),'nearest');
 
 
-z = 50:0.25:55;
-%  Griddata
-[xq,yq] = meshgrid(z,z);
-% vq = griddata(jk,z,lk,xq,yq);
-vq = interp2(z,z,lk,xq,yq,'cubic');
-% 
-
-surf(xq,yq,vq)
-%
+[X,Y]=meshgrid(x,x);
+contourf(X,Y,F(X,Y),100,'LineColor','none');
+colormap jet;

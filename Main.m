@@ -109,16 +109,17 @@ end
 
 %% Problema Vaso Pressao
 
-MDef = Def_Axis_TriQuad2(Nconec,SNcoord,Ufinal);
-S_Axis = Tensao_Axis_TriQuad(MDef,C);
+    MDef = Def_Axis_TriQuad(Nconec,SNcoord,Ufinal);
+    S_Axis = Tensao_Axis_TriQuad(MDef,C);
 
 
 %% Visualizacao    
-       
+      
 %     posT3;
 
-    posT6;
-%     plotMapT6(Uorg(:,1),SNcoord, Nconec);
+%     posT6;
+    Visualiza
+%      plotMapT6(Uorg(:,1),SNcoord, Nconec);
   
      
    

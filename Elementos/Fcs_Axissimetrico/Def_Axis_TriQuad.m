@@ -49,10 +49,10 @@ function Def_Linear = Def_Axis_TriQuad(Nconec,SNcoord,Ufinal)
          %Calcular a posicao do ponto de Gauss na coordenada real
          PosGauss=  Phi * RZ;
          
-         Def_Linear(contador,1) = contador;
-         Def_Linear(contador,2:3) = PosGauss;    
+%          Def_Linear(contador,1) = contador;
+         Def_Linear(contador,1:2) = PosGauss;    
          
-         Def_Linear(contador,4:7) = (B*Ue)';
+         Def_Linear(contador,3:6) = (B*Ue)';
  
          contador = contador+1;
         end

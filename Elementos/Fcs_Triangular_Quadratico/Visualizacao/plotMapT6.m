@@ -28,7 +28,8 @@ colormap jet;
         Z(5,:) = X(3,:);
         Z(6,:) = X(6,:);  
         
-        fill(Z(:,1),Z(:,2),Map(k));  
+        fill(Z(:,1),Z(:,2),Map(k)); 
+      
     end      
 end
 

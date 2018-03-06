@@ -8,6 +8,7 @@ function Def_Linear = Def_Axis_TriQuad2(Nconec,SNcoord,Ufinal)
     % ser otimizado
     NElementos = size(Nconec,1);
     NnosElemento = size(Nconec,2)-1;
+    NNos = size(SNcoord,1);
     GLpNo = 2;
     
     
@@ -21,6 +22,7 @@ function Def_Linear = Def_Axis_TriQuad2(Nconec,SNcoord,Ufinal)
                    
     contador = 1;
     
+    Def_Linear=zeros( NNos, 5);
 
     %Percorre os elementos
     for k = 1: NElementos;
@@ -37,7 +39,7 @@ function Def_Linear = Def_Axis_TriQuad2(Nconec,SNcoord,Ufinal)
          RZ = [R Z];
          
          e1 = e(j,1);  
-         e2 = e(j,2);
+         e2 = e(j,2);   
          
          
          Phi = vetorFuncoesForma(e1,e2);
@@ -46,15 +48,14 @@ function Def_Linear = Def_Axis_TriQuad2(Nconec,SNcoord,Ufinal)
          B = B_Axis_TriQuad(e1,e2,R,Z,r);
          
          %Calcular a posicao do ponto de Gauss na coordenada real
-         PosGauss=  Phi * RZ;
+%          PosGauss=  Phi * RZ;
          
          Def_Linear(contador,1) = contador;
 %          Def_Linear(contador,2:3) = PosGauss;    
          
          Def_Linear(contador,2:5) = (B*Ue)';
  
-         
-        end
-         contador = contador+1;                      
+         contador = Nconec(k,i+1) ;% contador+1;
+        end                       
     end    
 end

@@ -1,10 +1,9 @@
 IMPLEMENTACAO 
 
  - Estudo e implementacao da carga nodal consistente.
- - Modelo Axissimetrico
  - Melhoria e generalizacao dos processos de visualizacao dos resultados
  - Modelo Bi-linear
- - Seção de Benchmarks (será?)
+
  
 CONSISTENCIA
 
@@ -20,3 +19,8 @@ Nao muito importante
 	- Muitas chamadas redundantes as funcoes e derivadas das funcoes de forma
 	- Muitas chamadas redundantes ao Jacobiano
 
+
+	FEITO
+	- Modelo Axissimetrico
+    - Seção de Benchmarks (será?)
+    - Matriz de deformacoes B. Deixar o resultado em gama ou exy (EM GAMA, MAS DEVE SER CONSISTENTE COM C)

@@ -1,16 +1,4 @@
-% Plot U
-
-% figure;
-% scatter3(MDef(:,1),MDef(:,2),MDef(:,5),'*');
-
-
-% Func = scatteredInterpolant(S_Axis(:,1),S_Axis(:,2),S_Axis(:,5),'nearest');
-% Func = scatteredInterpolant(MDef(:,1),MDef(:,2),MDef(:,6),'natural');
-% Func = scatteredInterpolant(SNcoord(:,2),SNcoord(:,3),Uorg(:,1));
-
-
-
-
+% Script para plot do problema do vaso de Pressao.
 
 x = r0 :0.05 : r0+5;
 y = 0 :0.05 : 5;

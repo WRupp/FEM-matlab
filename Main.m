@@ -45,7 +45,7 @@ Dim =2;         % Dimensao do problema
     [Ncoord,Nconec] = leINP(INPfile);
     
     
-    difR=000;
+    difR=100;
     Ncoord(:,2)=Ncoord(:,2)+difR;
  
     % Reorganiza a matriz de coordenadas nodais (numeração crescente)
@@ -116,14 +116,14 @@ end
 
     MDef = Def_Axis_TriQuad(Nconec,SNcoord,Ufinal);
     S_Axis = Tensao_Axis_TriQuad(MDef,C);
+    
+     VisualizaVaso;
 
 
-%% Visualizacao    
+%% End 
       
-%     posT3;
-%     posT6;
-    Visualiza
-%      plotMapT6(Uorg(:,1),SNcoord, Nconec);
+   
+
   
      
    

@@ -1,0 +1,401 @@
+# -*- coding: mbcs -*-
+#
+# Abaqus/CAE Release 6.14-1 replay file
+# Internal Version: 2014_06_04-19.11.02 134264
+# Run by Wagner on Wed Mar 07 17:51:01 2018
+#
+
+# from driverUtils import executeOnCaeGraphicsStartup
+# executeOnCaeGraphicsStartup()
+#: Executing "onCaeGraphicsStartup()" in the site directory ...
+#: Abaqus Error: 
+#: This error may have occurred due to a change to the Abaqus Scripting
+#: Interface. Please see the Abaqus Scripting Manual for the details of
+#: these changes. Also see the "Example environment files" section of 
+#: the Abaqus Site Guide for up-to-date examples of common tasks in the
+#: environment file.
+#: Execution of "onCaeGraphicsStartup()" in the site directory failed.
+from abaqus import *
+from abaqusConstants import *
+session.Viewport(name='Viewport: 1', origin=(0.0, 0.0), width=132.064422607422, 
+    height=144.6484375)
+session.viewports['Viewport: 1'].makeCurrent()
+session.viewports['Viewport: 1'].maximize()
+from caeModules import *
+from driverUtils import executeOnCaeStartup
+executeOnCaeStartup()
+openMdb('VasoPressao.cae')
+#: The model database "C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Vaso de Pressao\VasoPressao.cae" has been opened.
+session.viewports['Viewport: 1'].setValues(displayedObject=None)
+session.viewports['Viewport: 1'].partDisplay.geometryOptions.setValues(
+    referenceRepresentation=ON)
+p = mdb.models['Model-1'].parts['Part-1']
+session.viewports['Viewport: 1'].setValues(displayedObject=p)
+session.viewports['Viewport: 1'].partDisplay.setValues(mesh=ON)
+session.viewports['Viewport: 1'].partDisplay.meshOptions.setValues(
+    meshTechnique=ON)
+session.viewports['Viewport: 1'].partDisplay.geometryOptions.setValues(
+    referenceRepresentation=OFF)
+p = mdb.models['Model-1'].parts['Part-1']
+p.deleteMesh()
+p = mdb.models['Model-1'].parts['Part-1']
+p.seedPart(size=0.25, deviationFactor=0.1, minSizeFactor=0.1)
+p = mdb.models['Model-1'].parts['Part-1']
+p.generateMesh()
+session.viewports['Viewport: 1'].view.fitView()
+session.viewports['Viewport: 1'].view.fitView()
+session.viewports['Viewport: 1'].view.fitView()
+session.viewports['Viewport: 1'].view.setValues(nearPlane=108.724, 
+    farPlane=112.582, width=15.8005, height=7.57475, viewOffsetX=24.465, 
+    viewOffsetY=-0.248806)
+a = mdb.models['Model-1'].rootAssembly
+a.regenerate()
+session.viewports['Viewport: 1'].setValues(displayedObject=a)
+session.viewports['Viewport: 1'].assemblyDisplay.setValues(step='Step-1')
+session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=ON, bcs=ON, 
+    predefinedFields=ON, connectors=ON, optimizationTasks=OFF, 
+    geometricRestrictions=OFF, stopConditions=OFF)
+del mdb.models['Model-1'].loads['Load-1']
+a = mdb.models['Model-1'].rootAssembly
+s1 = a.instances['Part-1-1'].edges
+side1Edges1 = s1.getSequenceFromMask(mask=('[#8 ]', ), )
+region = a.Surface(side1Edges=side1Edges1, name='Surf-1')
+mdb.models['Model-1'].Pressure(name='Load-1', createStepName='Step-1', 
+    region=region, distributionType=UNIFORM, field='', magnitude=2.8, 
+    amplitude=UNSET)
+mdb.save()
+#: The model database has been saved to "C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Vaso de Pressao\VasoPressao.cae".
+session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=OFF, bcs=OFF, 
+    predefinedFields=OFF, connectors=OFF)
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+#: The job input file "Job-1.inp" has been submitted for analysis.
+#: Job Job-1: Analysis Input File Processor completed successfully.
+#: Job Job-1: Abaqus/Standard completed successfully.
+#: Job Job-1 completed successfully. 
+o3 = session.openOdb(
+    name='C:/Users/Wagner/Desktop/Projeto FEM/FEM-matlab/Benchmarks/Vaso de Pressao/Job-1.odb')
+#: Model: C:/Users/Wagner/Desktop/Projeto FEM/FEM-matlab/Benchmarks/Vaso de Pressao/Job-1.odb
+#: Number of Assemblies:         1
+#: Number of Assembly instances: 0
+#: Number of Part instances:     1
+#: Number of Meshes:             1
+#: Number of Element Sets:       3
+#: Number of Node Sets:          3
+#: Number of Steps:              1
+session.viewports['Viewport: 1'].setValues(displayedObject=o3)
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='S', outputPosition=INTEGRATION_POINT, refinement=(COMPONENT, 
+    'S11'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='S', outputPosition=INTEGRATION_POINT, refinement=(COMPONENT, 
+    'S22'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='S', outputPosition=INTEGRATION_POINT, refinement=(COMPONENT, 
+    'S33'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='S', outputPosition=INTEGRATION_POINT, refinement=(COMPONENT, 
+    'S12'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='S', outputPosition=INTEGRATION_POINT, refinement=(INVARIANT, 
+    'Pressure'), )
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    DEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+a = mdb.models['Model-1'].rootAssembly
+session.viewports['Viewport: 1'].setValues(displayedObject=a)
+session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=ON, bcs=ON, 
+    predefinedFields=ON, connectors=ON)
+a = mdb.models['Model-1'].rootAssembly
+e1 = a.instances['Part-1-1'].edges
+edges1 = e1.getSequenceFromMask(mask=('[#4 ]', ), )
+region = a.Set(edges=edges1, name='Upper')
+mdb.models['Model-1'].ZsymmBC(name='BC-2', createStepName='Step-1', 
+    region=region, localCsys=None)
+session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=OFF, bcs=OFF, 
+    predefinedFields=OFF, connectors=OFF)
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+#: The job input file "Job-1.inp" has been submitted for analysis.
+#: Job Job-1: Analysis Input File Processor completed successfully.
+#: Job Job-1: Abaqus/Standard completed successfully.
+#: Job Job-1 completed successfully. 
+o3 = session.openOdb(
+    name='C:/Users/Wagner/Desktop/Projeto FEM/FEM-matlab/Benchmarks/Vaso de Pressao/Job-1.odb')
+#: Model: C:/Users/Wagner/Desktop/Projeto FEM/FEM-matlab/Benchmarks/Vaso de Pressao/Job-1.odb
+#: Number of Assemblies:         1
+#: Number of Assembly instances: 0
+#: Number of Part instances:     1
+#: Number of Meshes:             1
+#: Number of Element Sets:       4
+#: Number of Node Sets:          4
+#: Number of Steps:              1
+session.viewports['Viewport: 1'].setValues(displayedObject=o3)
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='S', outputPosition=INTEGRATION_POINT, refinement=(COMPONENT, 
+    'S11'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='S', outputPosition=INTEGRATION_POINT, refinement=(COMPONENT, 
+    'S22'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='S', outputPosition=INTEGRATION_POINT, refinement=(COMPONENT, 
+    'S33'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='S', outputPosition=INTEGRATION_POINT, refinement=(COMPONENT, 
+    'S22'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='S', outputPosition=INTEGRATION_POINT, refinement=(COMPONENT, 
+    'S11'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='U', outputPosition=NODAL, refinement=(INVARIANT, 
+    'Magnitude'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='U', outputPosition=NODAL, refinement=(COMPONENT, 'U1'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='E', outputPosition=INTEGRATION_POINT, refinement=(INVARIANT, 
+    'Max. In-Plane Principal'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='E', outputPosition=INTEGRATION_POINT, refinement=(COMPONENT, 
+    'E11'), )
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(
+    plotState=SYMBOLS_ON_DEF)
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(
+    plotState=CONTOURS_ON_DEF)
+session.viewports['Viewport: 1'].odbDisplay.commonOptions.setValues(
+    renderStyle=WIREFRAME)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    numIntervals=2, maxValue=-3.99835E-005, minValue=-5.82314E-005)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    numIntervals=10)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourMethod=TESSELLATED)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    intervalType=LOG)
+#: Warning: Contour Min value is not greater than zero. The Contour Interval type value set to LOG will be ignored.
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=ISOSURFACE, intervalType=UNIFORM)
+#* The 'tessellated' contour method is not supported in combination with 
+#* iso-surface contour.
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=ISOSURFACE, contourMethod=TEXTURE_MAPPED, intervalType=UNIFORM)
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    SYMBOLS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    ORIENT_ON_DEF, ))
+#: Warning: Material orientation information is not available in the current frame for any elements in the current display group.  Please make sure the primary variable is element-based AND orientations had been defined in the pertinent solid/shell sections.
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    SYMBOLS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].enableMultipleColors()
+session.viewports['Viewport: 1'].setColor(initialColor='#BDBDBD')
+cmap=session.viewports['Viewport: 1'].colorMappings['Internal set']
+session.viewports['Viewport: 1'].setColor(colorMapping=cmap)
+session.viewports['Viewport: 1'].disableMultipleColors()
+session.viewports['Viewport: 1'].odbDisplay.commonOptions.setValues(
+    translucency=ON)
+session.viewports['Viewport: 1'].enableMultipleColors()
+session.viewports['Viewport: 1'].setColor(initialColor='#BDBDBD')
+cmap=session.viewports['Viewport: 1'].colorMappings['Section']
+session.viewports['Viewport: 1'].setColor(colorMapping=cmap)
+session.viewports['Viewport: 1'].disableMultipleColors()
+session.viewports['Viewport: 1'].odbDisplay.commonOptions.setValues(
+    translucency=OFF)
+session.viewports['Viewport: 1'].odbDisplay.commonOptions.setValues(
+    translucency=ON)
+session.viewports['Viewport: 1'].odbDisplay.commonOptions.setValues(
+    translucency=OFF)
+session.viewports['Viewport: 1'].odbDisplay.commonOptions.setValues(
+    translucency=ON)
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    SYMBOLS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    DEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    DEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    DEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    DEFORMED, ))
+session.viewports['Viewport: 1'].enableMultipleColors()
+session.viewports['Viewport: 1'].setColor(initialColor='#BDBDBD')
+cmap=session.viewports['Viewport: 1'].colorMappings['Averaging region']
+session.viewports['Viewport: 1'].setColor(colorMapping=cmap)
+session.viewports['Viewport: 1'].disableMultipleColors()
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=LINE)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=BANDED)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=QUILT)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=BANDED, contourMethod=TESSELLATED)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=QUILT)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourMethod=TEXTURE_MAPPED)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    tickmarkPlots=ON)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=LINE, tickmarkPlots=OFF)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=QUILT)
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    DEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    SYMBOLS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+a = mdb.models['Model-1'].rootAssembly
+session.viewports['Viewport: 1'].setValues(displayedObject=a)
+session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=ON, bcs=ON, 
+    predefinedFields=ON, connectors=ON)
+del mdb.models['Model-1'].loads['Load-1']
+session.viewports['Viewport: 1'].view.setValues(nearPlane=108.74, 
+    farPlane=112.566, width=16.464, height=7.86214, viewOffsetX=17.2088, 
+    viewOffsetY=0.0279765)
+session.viewports['Viewport: 1'].partDisplay.setValues(mesh=OFF)
+session.viewports['Viewport: 1'].partDisplay.meshOptions.setValues(
+    meshTechnique=OFF)
+session.viewports['Viewport: 1'].partDisplay.geometryOptions.setValues(
+    referenceRepresentation=ON)
+p = mdb.models['Model-1'].parts['Part-1']
+session.viewports['Viewport: 1'].setValues(displayedObject=p)
+p1 = mdb.models['Model-1'].parts['Part-1']
+session.viewports['Viewport: 1'].setValues(displayedObject=p1)
+session.viewports['Viewport: 1'].partDisplay.setValues(mesh=ON)
+p = mdb.models['Model-1'].parts['Part-1']
+n = p.nodes
+nodes = n.getSequenceFromMask(mask=(
+    '[#200001 #80000400 #100000 #40000200 #80000 #20000100 #40000', 
+    ' #10000080 #20000 #8000040 #10000 #4000020 #8000 #20000010', 
+    ' #0:2 #2000 #0 #400 #0 #80 #0', ' #10 #0 #2 #40000000 #0 #8000000 #0', 
+    ' #1000000 #0 #200000 #0 #40000 #0 #8000', ' #0 #1000 #0 #200 #0 #40 #0', 
+    ' #8 #0 #1 #20000000 #0 #4000000 #0', ' #800000 ]', ), )
+p.Set(nodes=nodes, name='BC_Esq')
+#: The set 'BC_Esq' has been edited (41 nodes).
+session.viewports['Viewport: 1'].partDisplay.setValues(mesh=OFF)
+a = mdb.models['Model-1'].rootAssembly
+a.regenerate()
+session.viewports['Viewport: 1'].setValues(displayedObject=a)
+a = mdb.models['Model-1'].rootAssembly
+region = a.instances['Part-1-1'].sets['BC_Esq']
+mdb.models['Model-1'].ConcentratedForce(name='Load-1', createStepName='Step-1', 
+    region=region, cf1=2.5, distributionType=UNIFORM, field='', localCsys=None)
+session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=OFF, bcs=OFF, 
+    predefinedFields=OFF, connectors=OFF)
+del mdb.jobs['Job-1']
+mdb.Job(name='Job-1', model='Model-1', description='', type=ANALYSIS, 
+    atTime=None, waitMinutes=0, waitHours=0, queue=None, memory=90, 
+    memoryUnits=PERCENTAGE, getMemoryFromAnalysis=True, 
+    explicitPrecision=SINGLE, nodalOutputPrecision=SINGLE, echoPrint=OFF, 
+    modelPrint=OFF, contactPrint=OFF, historyPrint=OFF, userSubroutine='', 
+    scratch='', resultsFormat=ODB, multiprocessingMode=DEFAULT, numCpus=1, 
+    numGPUs=0)
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+#: The job input file "Job-1.inp" has been submitted for analysis.
+#: Job Job-1: Analysis Input File Processor completed successfully.
+#: Job Job-1: Abaqus/Standard completed successfully.
+#: Job Job-1 completed successfully. 
+o3 = session.openOdb(
+    name='C:/Users/Wagner/Desktop/Projeto FEM/FEM-matlab/Benchmarks/Vaso de Pressao/Job-1.odb')
+#: Model: C:/Users/Wagner/Desktop/Projeto FEM/FEM-matlab/Benchmarks/Vaso de Pressao/Job-1.odb
+#: Number of Assemblies:         1
+#: Number of Assembly instances: 0
+#: Number of Part instances:     1
+#: Number of Meshes:             1
+#: Number of Element Sets:       4
+#: Number of Node Sets:          5
+#: Number of Steps:              1
+session.viewports['Viewport: 1'].setValues(displayedObject=o3)
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=ISOSURFACE)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=QUILT, numIntervals=8, contourMethod=TESSELLATED, 
+    maxValue=0.745448, minValue=0.621454)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourMethod=TEXTURE_MAPPED)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    numIntervals=11)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=ISOSURFACE, numIntervals=10)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=LINE)
+session.viewports['Viewport: 1'].odbDisplay.contourOptions.setValues(
+    contourType=BANDED)
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    DEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    UNDEFORMED, ))
+session.viewports['Viewport: 1'].odbDisplay.display.setValues(plotState=(
+    CONTOURS_ON_DEF, ))
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='E', outputPosition=INTEGRATION_POINT, refinement=(INVARIANT, 
+    'Max. In-Plane Principal'), )
+session.viewports['Viewport: 1'].odbDisplay.setPrimaryVariable(
+    variableLabel='E', outputPosition=INTEGRATION_POINT, refinement=(COMPONENT, 
+    'E11'), )
+odb = session.odbs['C:/Users/Wagner/Desktop/Projeto FEM/FEM-matlab/Benchmarks/Vaso de Pressao/Job-1.odb']
+session.writeFieldReport(fileName='abaqus.rpt', append=ON, 
+    sortItem='Element Label', odb=odb, step=0, frame=1, 
+    outputPosition=INTEGRATION_POINT, variable=(('S', INTEGRATION_POINT, ((
+    COMPONENT, 'S11'), )), ))
+odb = session.odbs['C:/Users/Wagner/Desktop/Projeto FEM/FEM-matlab/Benchmarks/Vaso de Pressao/Job-1.odb']
+session.writeFieldReport(fileName='abaqus.rpt', append=ON, 
+    sortItem='Node Label', odb=odb, step=0, frame=1, outputPosition=NODAL, 
+    variable=(('U', NODAL, ((COMPONENT, 'U1'), )), ))
+odb = session.odbs['C:/Users/Wagner/Desktop/Projeto FEM/FEM-matlab/Benchmarks/Vaso de Pressao/Job-1.odb']
+session.writeFieldReport(fileName='abaqus.rpt', append=ON, 
+    sortItem='Node Label', odb=odb, step=0, frame=1, outputPosition=NODAL, 
+    variable=(('U', NODAL, ((COMPONENT, 'U1'), )), ))
+odb = session.odbs['C:/Users/Wagner/Desktop/Projeto FEM/FEM-matlab/Benchmarks/Vaso de Pressao/Job-1.odb']
+session.writeFieldReport(fileName='abaqus.rpt', append=ON, 
+    sortItem='Node Label', odb=odb, step=0, frame=1, outputPosition=NODAL, 
+    variable=(('U', NODAL, ((COMPONENT, 'U1'), (COMPONENT, 'U2'), )), ))
+mdb.save()
+#: The model database has been saved to "C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Vaso de Pressao\VasoPressao.cae".

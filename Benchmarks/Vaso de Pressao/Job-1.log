@@ -1,0 +1,16 @@
+Abaqus JOB Job-1
+Abaqus 6.14-1
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server localhost.
+<1019 out of 1024 licenses remain available>.
+Begin Analysis Input File Processor
+08/03/2018 10:48:42
+Run pre.exe
+08/03/2018 10:48:58
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+08/03/2018 10:48:58
+Run standard.exe
+08/03/2018 10:49:09
+End Abaqus/Standard Analysis
+Abaqus JOB Job-1 COMPLETED

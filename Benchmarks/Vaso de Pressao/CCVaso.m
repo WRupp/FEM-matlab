@@ -1,21 +1,34 @@
 % Condicoes de contorno para o problema de vaso de pressao
 
- Pressao = 10000; % MPa
- r0 = 50 ; % mm
+ Pressao = 2.5; % MPa
+ r0 = 50+difR ; % mm
+ h = 5;
+ nElemFEsq = 10; % Numero de elementos da face esquerda
  
-% Condicao de forca
-SetEsq = NodePosFinder(Ncoord,r0);
-f =  Pressao;% / size(SetEsq,1);  % Tem Erro Aqui. Nao seria consistente.
+ Forca = 2*pi*h*r0 * Pressao;
+ 
+ 
+ 
+ f = (Forca / nElemFEsq )/4 ; 
+ 
+% Alguns sets 
 
+SetEsq = NodePosFinder(SNcoord,r0); 
+SetDir = NodePosFinder(SNcoord,r0+5); 
 
-Mfn = set2Mcc( SetEsq,f,1,[]); 
+SetBaixo = NodePosYFinder(SNcoord,0);
+SetCima = NodePosYFinder(SNcoord,5); 
+
+SetI = setdiff(SetEsq,SetCima);
+SetInternos = setdiff(SetI,SetBaixo);
+SetExternos = [ intersect(SetEsq,SetCima) ; intersect(SetEsq,SetBaixo) ];
+
+% Condicao de forca consistente
+
+% Mfn = set2Mcc( SetInternos, 2*f, 1,[]); 
+% Mfn = set2Mcc( SetExternos, f  , 1,Mfn); 
+Mfn = set2Mcc( SetEsq, Pressao, 1,[]); 
 
 % Condicao de deslocamento
-SetBaixo = NodePosYFinder(Ncoord,0);
-SetCima = NodePosYFinder(Ncoord,5);
 Mcc = set2Mcc( SetBaixo,0,2,[]);
-% Mcc = set2Mcc( SetCima,0,2,Mcc);
-
-% Condicao de forca 
-% Mfn = set2Mcc( SetCima,-f,2,Mfn); 
-
+Mcc = set2Mcc( SetCima,0,2,Mcc);

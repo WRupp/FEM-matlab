@@ -14,7 +14,7 @@ addpath(genpath(folder));
 % caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
 % inpNome = 'Viguinha.inp';
 caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Vaso de Pressao\';
-inpNome = 'MalhaVaso.inp';
+inpNome = 'Job-1.inp';
     
 %Output
 caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
@@ -34,36 +34,41 @@ v = 0.3;
 % C = Cept(E,v); % Estado Plano de 
 C = Caxis(E,v);
 
-%% Definições do tipo de Elemento
+%% Definições do tipo de Malha/Elemento
 
-ngl=2;
+ngl=2;          % Numero de Graus de Liberdade por nó
+Dim =2;         % Dimensao do problema
 
 %% Definição da Malha
 
-% [Ncoord,Nconec] = LeMalha(CaminhoArquivoNo,CaminhoArquivoElem);
-     [Ncoord,Nconec] = leINP(INPfile);
- 
-%      Ncoord(:,2) = 10*Ncoord(:,2);   % Deletar isso.     
-
+    % Le a malha de um arquivo .inp expecificado   
+    [Ncoord,Nconec] = leINP(INPfile);
     
-
-    Nnos = size(Ncoord,1);
+    
+    difR=000;
+    Ncoord(:,2)=Ncoord(:,2)+difR;
+ 
     % Reorganiza a matriz de coordenadas nodais (numeração crescente)
     SNcoord = sortrows(Ncoord);
+    
+    % Calcula a quantidade de nos da malha
+    Nnos = size(SNcoord,1);
 
 % Condições de contorno 
  
-%     CCviga;
-    CCVaso;
+%     CCviga; % Script que evoca as CC para o caso do Vaso de Pressao
+    CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
     
+    % Ordena por nó as 
     Mcc = sortrows(Mcc);
+    Mfn = sortrows(Mfn);    
          
 %% Processamento  
 
 % Declaração inicial de Variaveis
 
-Kglobal = zeros(ngl*Nnos);
-F = zeros(ngl*Nnos,1); 
+    Kglobal = zeros(ngl*Nnos);
+    F = zeros(ngl*Nnos,1); 
     
 % Assembly da matriz de rigidez global
 % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
@@ -72,7 +77,7 @@ F = zeros(ngl*Nnos,1);
 % Assembly do vetor de forças
 
 for i=1:size(Mfn,1)  
-   F(2*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
+   F(ngl*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
 end
  
 % Eliminação de linhas/colunas
@@ -84,7 +89,7 @@ end
  Udel = Kdel  \ Fdel ;
  
  %% Pós processamento
-% AQUI ATUALIZAR PARA O GL
+
  % Reconstruindo o vetor de deslocamentos
    Ufinal = Udel;
    for L = 1:size(Mcc,1)
@@ -116,7 +121,6 @@ end
 %% Visualizacao    
       
 %     posT3;
-
 %     posT6;
     Visualiza
 %      plotMapT6(Uorg(:,1),SNcoord, Nconec);

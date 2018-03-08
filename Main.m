@@ -68,7 +68,7 @@ Dim =2;         % Dimensao do problema
 % Declaração inicial de Variaveis
 
     Kglobal = zeros(ngl*Nnos);
-    F = zeros(ngl*Nnos,1); 
+    Fglobal = zeros(ngl*Nnos,1); 
     
 % Assembly da matriz de rigidez global
 % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
@@ -77,34 +77,34 @@ Dim =2;         % Dimensao do problema
 % Assembly do vetor de forças
 
 for i=1:size(Mfn,1)  
-   F(ngl*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
+   Fglobal(ngl*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
 end
  
-% Eliminação de linhas/colunas
+% Aplicacao das Condicoes de Contorno - Substitui linhas/colunas dos GL
  
-[Kdel,Fdel] = constringeK (Kglobal,F,Mcc,ngl);
+[Kglobal,F,salvaEq] = AplicaCC (Kglobal,Fglobal,Mcc,ngl);
+
+% Calculo dos deslocamentos
  
- % Calculo dos deslocamentos
+ U = Kglobal  \ Fglobal ;
  
- Udel = Kdel  \ Fdel ;
+  % Repoe as linhas/Colunas Eliminadas e calcula as Reaçoes
+  
+  [Fglobal,Kglobal] = calcReacoes(Kglobal,Fglobal,U,salvaEq);
+ 
+  % Calculo das Reacoes
+%     Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples.   
  
  %% Pós processamento
 
- % Reconstruindo o vetor de deslocamentos
-   Ufinal = Udel;
-   for L = 1:size(Mcc,1)
-      glGlobal= ngl*(Mcc(L,1)-1) +  Mcc(L,3);
-      Ufinal = [Ufinal(1:glGlobal-1) ;   Mcc(L,2) ; Ufinal(glGlobal:end)];
-   end
+ 
+%    Ufinal = Udel; 
 
  % Organiza o vetor de deslocamentos por no  
-   Uorg = organizaU(Ufinal,ngl,Nnos);
+   Uorg = organizaU(U,ngl,Nnos);
    
  % Coordenadas nodais deslocadas
-   DefNcoor = defCoord(SNcoord,Ufinal);
-
- % Calculo das Reacoes
-    Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples.   
+   DefNcoor = defCoord(SNcoord,U);
   
 
 %% Problema Viga
@@ -114,10 +114,10 @@ end
 
 %% Problema Vaso Pressao
 
-    MDef = Def_Axis_TriQuad(Nconec,SNcoord,Ufinal);
+    MDef = Def_Axis_TriQuad(Nconec,SNcoord,U);
     S_Axis = Tensao_Axis_TriQuad(MDef,C);
     
-     VisualizaVaso;
+%      VisualizaVaso;
 
 
 %% End 

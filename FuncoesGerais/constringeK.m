@@ -9,10 +9,12 @@ function [Kdel,Fdel] = constringeK (Kglobal,F,Mcc,GLpNo)
      Nno = Mcc(end-i,1);
      dof = Mcc(end-i,3);
 
-     Kdel(GLpNo*(Nno-1) + dof,:)=[];
-     Kdel(:,GLpNo*(Nno-1) + dof)=[];
+     nG = GLpNo*(Nno-1) + dof;
 
-     Fdel(GLpNo*(Nno-1) + dof) = [];
+     Kdel(nG,:)=[];
+     Kdel(:,nG)=[];
+
+     Fdel(nG) = [];
 
      end
  

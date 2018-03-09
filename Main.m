@@ -42,32 +42,26 @@ Dim =2;         % Dimensao do problema
 %% Definição da Malha
 
     % Le a malha de um arquivo .inp expecificado   
-    [Ncoord,Nconec] = leINP(INPfile);
-    
-    
-    difR=100;
-    Ncoord(:,2)=Ncoord(:,2)+difR;
+    %      [Ncoord,Nconec] = leINP(INPfile);
+
+% Condições de contorno - Carrega as condicoes para cada caso
  
-    % Reorganiza a matriz de coordenadas nodais (numeração crescente)
+%     CCviga; % Script que evoca as CC para o caso da Viga
+    CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
+    
+    % Ordena por nó as matrizes
     SNcoord = sortrows(Ncoord);
+    Mcc = sortrows(Mcc);
+    Mfn = sortrows(Mfn);  
     
     % Calcula a quantidade de nos da malha
     Nnos = size(SNcoord,1);
-
-% Condições de contorno 
- 
-%     CCviga; % Script que evoca as CC para o caso do Vaso de Pressao
-    CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
-    
-    % Ordena por nó as 
-    Mcc = sortrows(Mcc);
-    Mfn = sortrows(Mfn);    
          
 %% Processamento  
 
 % Declaração inicial de Variaveis
 
-    Kglobal = zeros(ngl*Nnos);
+    Kglobal = sparse(ngl*Nnos,ngl*Nnos); %Kglobal = zeros(ngl*Nnos);
     Fglobal = zeros(ngl*Nnos,1); 
     
 % Assembly da matriz de rigidez global
@@ -75,6 +69,8 @@ Dim =2;         % Dimensao do problema
     Kglobal = AssemblyDaGlobal(Nconec,SNcoord,Kglobal,C);
   
 % Assembly do vetor de forças
+
+
 
 for i=1:size(Mfn,1)  
    Fglobal(ngl*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
@@ -117,7 +113,7 @@ end
     MDef = Def_Axis_TriQuad(Nconec,SNcoord,U);
     S_Axis = Tensao_Axis_TriQuad(MDef,C);
     
-%      VisualizaVaso;
+    VisualizaVaso;
 
 
 %% End 

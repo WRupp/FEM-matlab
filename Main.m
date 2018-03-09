@@ -70,23 +70,23 @@ Dim =2;         % Dimensao do problema
   
 % Assembly do vetor de forças
 
-
-
+%  Fglobal = AssemblyForcas(SetEsq,SNcoord,Nconec);
+% 
 for i=1:size(Mfn,1)  
    Fglobal(ngl*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
 end
  
 % Aplicacao das Condicoes de Contorno - Substitui linhas/colunas dos GL
  
-[Kglobal,F,salvaEq] = AplicaCC (Kglobal,Fglobal,Mcc,ngl);
+[Kglobal,Fglobal,salvaEq] = AplicaCC (Kglobal,Fglobal,Mcc,ngl);
 
 % Calculo dos deslocamentos
  
  U = Kglobal  \ Fglobal ;
  
-  % Repoe as linhas/Colunas Eliminadas e calcula as Reaçoes
+  % Repoe as linhas/Colunas Eliminadas e calcula as Reaçoes nos apoios
   
-  [Fglobal,Kglobal] = calcReacoes(Kglobal,Fglobal,U,salvaEq);
+%   [Fglobal,Kglobal] = calcReacoes(Kglobal,Fglobal,U,salvaEq);
  
   % Calculo das Reacoes
 %     Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples.   

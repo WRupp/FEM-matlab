@@ -2,12 +2,12 @@ IMPLEMENTACAO
 
  - Estudo e implementacao da carga nodal consistente.
  - Melhoria e generalizacao dos processos de visualizacao dos resultados
- - Modelo Bi-linear
+
 
  
 CONSISTENCIA
 
- - Rever as funcoes de soma na global. Deixar generalista.
+ - Rever as funcoes de soma na global. Deixar generalista pros elementos.
  - Matriz de deformacoes B. Deixar o resultado em gama ou exy? Tem que estar consistente com o C
  - Muitas funcoes tem ngl=2 hardcoded
 
@@ -21,6 +21,8 @@ Nao muito importante
 
 
 	FEITO
+	- Modelo Bi-linear
+	- Modelo Bi-Quadratico
 	- Modelo Axissimetrico
     - Seção de Benchmarks (será?)
     - Matriz de deformacoes B. Deixar o resultado em gama ou exy (EM GAMA, MAS DEVE SER CONSISTENTE COM C)

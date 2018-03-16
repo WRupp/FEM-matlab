@@ -31,8 +31,8 @@ E = 2e5;
 v = 0.3;
 
 % C = Cepd(E,v); % Estado Plano de Deformacao
-% C = Cept(E,v); % Estado Plano de Tensao
-C = Caxis(E,v);   % Axissimetrico
+C = Cept(E,v); % Estado Plano de Tensao
+% C = Caxis(E,v);   % Axissimetrico
 
 disp('Nao esqueça de colocar o C material apropriado')
 
@@ -46,11 +46,25 @@ Dim =2;         % Dimensao do problema
     % Le a malha de um arquivo .inp expecificado   
     %      [Ncoord,Nconec] = leINP(INPfile);
    
-               
+    Ncoord = [ 1 -1 -1;
+               2 +1 -1;
+               3 +1 +1;
+               4 +1 -1;
+               5 +0 -1;
+               6 +1 +0;
+               7 +0 +1;
+               8 -1 +0;
+               9 +0 +0];
+           
+     Nconec = [ 1 1 2 3 4 5 6 7 8 9];      
+     
+     Ncoord(:,3) = Ncoord(:,3) + 2.5; 
+    
+    
 % Condições de contorno - Carrega as condicoes para cada caso
  
-%     CCviga; % Script que evoca as CC para o caso da Viga
-     CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
+    CCviga; % Script que evoca as CC para o caso da Viga
+%      CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
     
     % Ordena por nó as matrizes
     SNcoord = sortrows(Ncoord);
@@ -108,15 +122,15 @@ end
 
 %% Problema Viga
 
-    Vuy = deslocLinhaNeutra(SNcoord,Uorg);
+%     Vuy = deslocLinhaNeutra(SNcoord,Uorg);
 %     Comparacao_Viga;
 
 %% Problema Vaso Pressao
 
-    MDef = Def_Axis_TriQuad(Nconec,SNcoord,U);
-    S_Axis = Tensao_Axis_TriQuad(MDef,C);
-    
-    VisualizaVaso;
+%     MDef = Def_Axis_TriQuad(Nconec,SNcoord,U);
+%     S_Axis = Tensao_Axis_TriQuad(MDef,C);
+%     
+%     VisualizaVaso;
 
 
 %% End 

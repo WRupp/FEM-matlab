@@ -30,9 +30,11 @@ INPfile = [caminhoInput inpNome];
 E = 2e5;
 v = 0.3;
 
-% C = Cepd(E,v); % Estado Plano de Tensao
-% C = Cept(E,v); % Estado Plano de 
-C = Caxis(E,v);
+% C = Cepd(E,v); % Estado Plano de Deformacao
+% C = Cept(E,v); % Estado Plano de Tensao
+C = Caxis(E,v);   % Axissimetrico
+
+disp('Nao esqueça de colocar o C material apropriado')
 
 %% Definições do tipo de Malha/Elemento
 
@@ -43,17 +45,18 @@ Dim =2;         % Dimensao do problema
 
     % Le a malha de um arquivo .inp expecificado   
     %      [Ncoord,Nconec] = leINP(INPfile);
-
+   
+               
 % Condições de contorno - Carrega as condicoes para cada caso
  
 %     CCviga; % Script que evoca as CC para o caso da Viga
-    CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
+     CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
     
     % Ordena por nó as matrizes
     SNcoord = sortrows(Ncoord);
     Mcc = sortrows(Mcc);
     Mfn = sortrows(Mfn);  
-    
+%     
     % Calcula a quantidade de nos da malha
     Nnos = size(SNcoord,1);
          
@@ -71,7 +74,7 @@ Dim =2;         % Dimensao do problema
 % Assembly do vetor de forças
 
 %  Fglobal = AssemblyForcas(SetEsq,SNcoord,Nconec);
-% 
+ 
 for i=1:size(Mfn,1)  
    Fglobal(ngl*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
 end
@@ -105,7 +108,7 @@ end
 
 %% Problema Viga
 
-%     Vuy = deslocLinhaNeutra(SNcoord,Uorg);
+    Vuy = deslocLinhaNeutra(SNcoord,Uorg);
 %     Comparacao_Viga;
 
 %% Problema Vaso Pressao

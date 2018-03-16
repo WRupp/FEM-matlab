@@ -8,7 +8,7 @@ IMPLEMENTACAO
 CONSISTENCIA
 
  - Rever as funcoes de soma na global. Deixar generalista.
- - Matriz de deformacoes B. Deixar o resultado em gama ou exy?
+ - Matriz de deformacoes B. Deixar o resultado em gama ou exy? Tem que estar consistente com o C
  - Muitas funcoes tem ngl=2 hardcoded
 
 

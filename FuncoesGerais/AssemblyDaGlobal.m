@@ -19,6 +19,7 @@ NnosElemento = size(Nconec,2)-1;
 %          Kelem = intTriQuadratico(X,Y,C);  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
 %          Kelem = Ketp(X,Y,C);  % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
         Kelem = int_Axis_TriQuad (X,Y,C);
+%         Kelem = int_QuadLin (X,Y,C);
      
         % Assembly no elemento na Global    
         Kglobal = SomaNaGlobal(Kglobal,NnosElemento,Nconec,Kelem,k); 

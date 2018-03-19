@@ -13,8 +13,10 @@ addpath(genpath(folder));
 %Input
 % caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
 % inpNome = 'Viguinha.inp';
-caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Vaso de Pressao\';
-inpNome = 'Job-1.inp';
+% caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Vaso de Pressao\';
+% inpNome = 'Job-1.inp';
+caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Corpo de Prova\';
+inpNome = 'Malha1D638.txt';
     
 %Output
 caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
@@ -47,18 +49,19 @@ Dim =3;         % Dimensao do problema
 
     % Le a malha de um arquivo .inp expecificado   
 %          [Ncoord,Nconec] = leINP(INPfile);
+         
    
-    Ncoord = [ 1 -1 -1 -1;
-               2 +1 -1 -1;
-               3 +1 +1 -1;
-               4 +1 -1 -1;
-               5 +0 -1 +1;
-               6 +1 +0 +1;
-               7 +0 +1 +1;
-               8 -1 +0 +1];
-                
-           
-     Nconec = [ 1 1 2 3 4 5 6 7 8 ];      
+%     Ncoord = [ 1 -1 -1 -1;
+%                2 +1 -1 -1;
+%                3 +1 +1 -1;
+%                4 +1 -1 -1;
+%                5 +0 -1 +1;
+%                6 +1 +0 +1;
+%                7 +0 +1 +1;
+%                8 -1 +0 +1];
+%                 
+%            
+%      Nconec = [ 1 1 2 3 4 5 6 7 8 ];      
     
 % Condições de contorno - Carrega as condicoes para cada caso
  
@@ -131,6 +134,14 @@ end
 %     S_Axis = Tensao_Axis_TriQuad(MDef,C);
 %     
 %     VisualizaVaso;
+
+%% Problema Corpo de Prova
+
+
+
+
+
+
 
 
 %% End 

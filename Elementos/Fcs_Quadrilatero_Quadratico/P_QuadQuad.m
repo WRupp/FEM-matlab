@@ -1,4 +1,4 @@
-function P = P_QuadLin(e1,e2,X,Y,C)
+function P = P_QuadQuad(e1,e2,X,Y,C)
 	% Calcula o polinomio a ser integrado para o elemento axissimetrico Triangular Quadratico.
 
 	% 

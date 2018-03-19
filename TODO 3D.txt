@@ -1,0 +1,15 @@
+% Para implementar o 3D:
+
+- Modelo Material em 3D.
+
+- Tipo de Elemento em 3D : HEX8, HEX20 , TET
+
+- Matriz de Coordenadas com mais uma coluna.
+
+- Vai afetar algo no numero de graus de liberdade? e ou no assembly
+
+- Ponto de Gauss no Hex8
+
+FUNCOES ONDE NGL TA HARDCODED:
+
+SOMANAGLOBAL

@@ -59,14 +59,12 @@ Dim =3;         % Dimensao do problema
                 
            
      Nconec = [ 1 1 2 3 4 5 6 7 8 ];      
-     
-     
-    
     
 % Condições de contorno - Carrega as condicoes para cada caso
  
 %      CCviga; % Script que evoca as CC para o caso da Viga
 %      CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
+     CCcubo;  %Script que evoca as CC para o cubinho sob compressao
     
     % Ordena por nó as matrizes
     SNcoord = sortrows(Ncoord);
@@ -119,7 +117,7 @@ end
    Uorg = organizaU(U,ngl,Nnos);
    
  % Coordenadas nodais deslocadas
-   DefNcoor = defCoord(SNcoord,U);
+   DefNcoor = defCoord(SNcoord,U,ngl);
   
 
 %% Problema Viga

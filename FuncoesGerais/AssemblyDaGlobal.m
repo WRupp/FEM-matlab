@@ -23,7 +23,7 @@ NnosElemento = size(Nconec,2)-1;
         
         X = PosicoesNodais(:,1);
         Y = PosicoesNodais(:,2);
-        if Dim ==3
+        if Dim == 3
         Z = PosicoesNodais(:,3);
         end
         

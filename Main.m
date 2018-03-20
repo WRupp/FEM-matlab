@@ -13,8 +13,10 @@ addpath(genpath(folder));
 %Input
 % caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
 % inpNome = 'Viguinha.inp';
-caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Vaso de Pressao\';
-inpNome = 'Job-1.inp';
+% caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Vaso de Pressao\';
+% inpNome = 'Job-1.inp';
+caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Corpo de Prova\';
+inpNome = 'Malha1D638.txt';
     
 %Output
 caminhoOutput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Arquivos_Saída\';
@@ -31,46 +33,35 @@ E = 2e5;
 v = 0.3;
 
 % C = Cepd(E,v); % Estado Plano de Deformacao
-C = Cept(E,v); % Estado Plano de Tensao
+% C = Cept(E,v); % Estado Plano de Tensao
 % C = Caxis(E,v);   % Axissimetrico
+% C = C3D_lame(lambda,mu);
+C = C3D (E,v);
 
 disp('Nao esqueça de colocar o C material apropriado')
 
 %% Definições do tipo de Malha/Elemento
 
-ngl=2;          % Numero de Graus de Liberdade por nó
-Dim =2;         % Dimensao do problema
+ngl=3;          % Numero de Graus de Liberdade por nó
+Dim =3;         % Dimensao do problema
 
 %% Definição da Malha
 
     % Le a malha de um arquivo .inp expecificado   
-    %      [Ncoord,Nconec] = leINP(INPfile);
-   
-    Ncoord = [ 1 -1 -1;
-               2 +1 -1;
-               3 +1 +1;
-               4 +1 -1;
-               5 +0 -1;
-               6 +1 +0;
-               7 +0 +1;
-               8 -1 +0;
-               9 +0 +0];
-           
-     Nconec = [ 1 1 2 3 4 5 6 7 8 9];      
-     
-     Ncoord(:,3) = Ncoord(:,3) + 2.5; 
-    
+%          [Ncoord,Nconec] = leINP(INPfile);
+          
     
 % Condições de contorno - Carrega as condicoes para cada caso
  
-    CCviga; % Script que evoca as CC para o caso da Viga
+%      CCviga; % Script que evoca as CC para o caso da Viga
 %      CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
+     CCcubo;  %Script que evoca as CC para corpo de prova sob tracao
     
     % Ordena por nó as matrizes
     SNcoord = sortrows(Ncoord);
     Mcc = sortrows(Mcc);
     Mfn = sortrows(Mfn);  
-%     
+    
     % Calcula a quantidade de nos da malha
     Nnos = size(SNcoord,1);
          
@@ -83,19 +74,19 @@ Dim =2;         % Dimensao do problema
     
 % Assembly da matriz de rigidez global
 % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
-    Kglobal = AssemblyDaGlobal(Nconec,SNcoord,Kglobal,C);
+    Kglobal = AssemblyDaGlobal(Nconec,SNcoord,Kglobal,Dim,ngl,C);
   
 % Assembly do vetor de forças
 
 %  Fglobal = AssemblyForcas(SetEsq,SNcoord,Nconec);
  
-for i=1:size(Mfn,1)  
-   Fglobal(ngl*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
-end
+    for i=1:size(Mfn,1)  
+       Fglobal(ngl*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
+    end
  
 % Aplicacao das Condicoes de Contorno - Substitui linhas/colunas dos GL
  
-[Kglobal,Fglobal,salvaEq] = AplicaCC (Kglobal,Fglobal,Mcc,ngl);
+[Kglobal,Fglobal] = AplicaCC (Kglobal,Fglobal,Mcc,ngl);
 
 % Calculo dos deslocamentos
  
@@ -110,14 +101,11 @@ end
  
  %% Pós processamento
 
- 
-%    Ufinal = Udel; 
-
  % Organiza o vetor de deslocamentos por no  
    Uorg = organizaU(U,ngl,Nnos);
    
  % Coordenadas nodais deslocadas
-   DefNcoor = defCoord(SNcoord,U);
+   DefNcoor = defCoord(SNcoord,U,ngl);
   
 
 %% Problema Viga
@@ -131,6 +119,11 @@ end
 %     S_Axis = Tensao_Axis_TriQuad(MDef,C);
 %     
 %     VisualizaVaso;
+
+%% Problema Corpo de Prova
+    
+    PlotHex8(SNcoord,Nconec,'k');
+    PlotHex8(DefNcoor,Nconec,'r');
 
 
 %% End 

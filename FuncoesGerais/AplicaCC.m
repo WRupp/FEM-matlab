@@ -1,4 +1,4 @@
-function [Kglobal,Fglobal,salvaEq] = AplicaCC (Kglobal,Fglobal,Mcc,GLpNo)
+function [Kglobal,Fglobal] = AplicaCC (Kglobal,Fglobal,Mcc,GLpNo)
     % Aplica as condicoes de contorno nos nós, substituido por uma linha
     % de zeros, com 1 na diagonal principal
   
@@ -7,7 +7,7 @@ function [Kglobal,Fglobal,salvaEq] = AplicaCC (Kglobal,Fglobal,Mcc,GLpNo)
      sKg = size(Kglobal,1);
      
      % Vetor para salvar as linhas/colunas substituidas
-     salvaEq=zeros(sCC, 1 + sKg);
+%      salvaEq=zeros(sCC, 1 + sKg);
 
      for i=1:sCC
 
@@ -15,8 +15,8 @@ function [Kglobal,Fglobal,salvaEq] = AplicaCC (Kglobal,Fglobal,Mcc,GLpNo)
          dof = Mcc(i,3);
          nG = GLpNo*(Nno-1) + dof;
          
-         salvaEq(i,1)=nG;
-         salvaEq(i,2:end)= Kglobal(nG,:);
+%          salvaEq(i,1)=nG;
+%          salvaEq(i,2:end)= Kglobal(nG,:);
 
          Kglobal(nG,:)=0;
          Kglobal(:,nG)=0;

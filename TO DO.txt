@@ -7,11 +7,10 @@ IMPLEMENTACAO
  
 CONSISTENCIA
 
- - Rever as funcoes de soma na global. Deixar generalista pros elementos.
- - Matriz de deformacoes B. Deixar o resultado em gama ou exy? Tem que estar consistente com o C
- - Muitas funcoes tem ngl=2 hardcoded
-
-
+	- Rever as funcoes de soma na global. Deixar generalista pros elementos.
+	- Kelem levasse apenas a matriz de posicoes nodais ao inves de varios vetores
+			- Teria que mudar os argumentos das funcoes Kelem
+	- Muitas funcoes tem ngl=2 hardcoded
 
 
 Nao muito importante
@@ -21,6 +20,7 @@ Nao muito importante
 
 
 	FEITO
+	- Matriz de deformacoes B. Deixar o resultado em gama ou exy? Tem que estar consistente com o C
 	- Modelo Bi-linear
 	- Modelo Bi-Quadratico
 	- Modelo Axissimetrico

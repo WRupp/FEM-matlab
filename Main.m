@@ -49,25 +49,13 @@ Dim =3;         % Dimensao do problema
 
     % Le a malha de um arquivo .inp expecificado   
 %          [Ncoord,Nconec] = leINP(INPfile);
-         
-   
-%     Ncoord = [ 1 -1 -1 -1;
-%                2 +1 -1 -1;
-%                3 +1 +1 -1;
-%                4 +1 -1 -1;
-%                5 +0 -1 +1;
-%                6 +1 +0 +1;
-%                7 +0 +1 +1;
-%                8 -1 +0 +1];
-%                 
-%            
-%      Nconec = [ 1 1 2 3 4 5 6 7 8 ];      
+          
     
 % Condições de contorno - Carrega as condicoes para cada caso
  
 %      CCviga; % Script que evoca as CC para o caso da Viga
 %      CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
-     CCcubo;  %Script que evoca as CC para o cubinho sob compressao
+     CCcubo;  %Script que evoca as CC para corpo de prova sob tracao
     
     % Ordena por nó as matrizes
     SNcoord = sortrows(Ncoord);
@@ -92,13 +80,13 @@ Dim =3;         % Dimensao do problema
 
 %  Fglobal = AssemblyForcas(SetEsq,SNcoord,Nconec);
  
-for i=1:size(Mfn,1)  
-   Fglobal(ngl*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
-end
+    for i=1:size(Mfn,1)  
+       Fglobal(ngl*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2); 
+    end
  
 % Aplicacao das Condicoes de Contorno - Substitui linhas/colunas dos GL
  
-[Kglobal,Fglobal,salvaEq] = AplicaCC (Kglobal,Fglobal,Mcc,ngl);
+[Kglobal,Fglobal] = AplicaCC (Kglobal,Fglobal,Mcc,ngl);
 
 % Calculo dos deslocamentos
  
@@ -112,9 +100,6 @@ end
 %     Ffinal = Kglobal*Ufinal; % Não é a maneira melhor mas é simples.   
  
  %% Pós processamento
-
- 
-%    Ufinal = Udel; 
 
  % Organiza o vetor de deslocamentos por no  
    Uorg = organizaU(U,ngl,Nnos);
@@ -136,12 +121,9 @@ end
 %     VisualizaVaso;
 
 %% Problema Corpo de Prova
-
-
-
-
-
-
+    
+    PlotHex8(SNcoord,Nconec,'k');
+    PlotHex8(DefNcoor,Nconec,'r');
 
 
 %% End 

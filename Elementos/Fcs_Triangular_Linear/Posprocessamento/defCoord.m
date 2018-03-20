@@ -1,15 +1,7 @@
-function DefNcoor = defCoord(SNcoord,Ufinal,ngl)
+function DefNcoord = defCoord(SNcoord,Uorg)
 % Atualiza as coordenadas nodais após a deformação
 
-S = size(SNcoord);
-DefNcoor = zeros(S);
-    for i=1: S(1)
-        
-        DefNcoor(i,1) =  SNcoord(i,1);
-            
-        for j = 1 : S(2)-1;
-        DefNcoor(i,1+j) = SNcoord(i,1+j) + Ufinal(ngl*i-1) ; 
-        end
-    end 
+DefNcoord = SNcoord;
+DefNcoord(:,2:end) = DefNcoord(:,2:end)+Uorg;
 
 end

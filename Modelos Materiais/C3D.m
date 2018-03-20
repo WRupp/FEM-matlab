@@ -7,7 +7,7 @@ mu = E / (2*(1+v)) ; % = G
 
 C = [ lambda+2*mu lambda lambda 0 0 0 ;
       lambda lambda+2*mu lambda 0 0 0;
-      lambda lambda+2*mu lambda 0 0 0;
+      lambda lambda lambda+2*mu 0 0 0;
       0 0 0 mu 0 0;
       0 0 0 0 mu 0;
       0 0 0 0 0 mu];

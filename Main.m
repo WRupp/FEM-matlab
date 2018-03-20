@@ -49,14 +49,16 @@ Dim =3;         % Dimensao do problema
 
     % Le a malha de um arquivo .inp expecificado   
 %          [Ncoord,Nconec] = leINP(INPfile);
-          
+    
     
 % Condições de contorno - Carrega as condicoes para cada caso
  
 %      CCviga; % Script que evoca as CC para o caso da Viga
 %      CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
      CCcubo;  %Script que evoca as CC para corpo de prova sob tracao
-    
+%        CCcubinho;
+     
+     
     % Ordena por nó as matrizes
     SNcoord = sortrows(Ncoord);
     Mcc = sortrows(Mcc);
@@ -105,7 +107,7 @@ Dim =3;         % Dimensao do problema
    Uorg = organizaU(U,ngl,Nnos);
    
  % Coordenadas nodais deslocadas
-   DefNcoor = defCoord(SNcoord,U,ngl);
+   DefNcoord = defCoord(SNcoord,Uorg);
   
 
 %% Problema Viga
@@ -123,8 +125,9 @@ Dim =3;         % Dimensao do problema
 %% Problema Corpo de Prova
     
     PlotHex8(SNcoord,Nconec,'k');
-    PlotHex8(DefNcoor,Nconec,'r');
-
+    PlotHex8(DefNcoord,Nconec,'b');
+    
+%     plotNodesSet(DefNcoord,SNcoord(:,1));
 
 %% End 
       

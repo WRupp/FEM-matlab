@@ -1,4 +1,5 @@
 # LinearFEM
-Linear FEM -  For educational purposes
 
-A small program made to understand the basics of the Finite Element Method
+A small program made for educational purposes. Includes the basics of the Finite Element Method applied to solid mechanics.
+
+Um pequeno programa feito para entender os basicos do Método de Elementos Finitos aplicado à mecânica dos solidos. 

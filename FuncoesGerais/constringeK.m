@@ -1,5 +1,6 @@
 function [Kdel,Fdel] = constringeK (Kglobal,F,Mcc,GLpNo)
 
+  %%% FUNCAO VELHA - USAR A APLICACC
 
      Kdel = Kglobal;
      Fdel = F;
@@ -17,5 +18,5 @@ function [Kdel,Fdel] = constringeK (Kglobal,F,Mcc,GLpNo)
      Fdel(nG) = [];
 
      end
- 
+
 end

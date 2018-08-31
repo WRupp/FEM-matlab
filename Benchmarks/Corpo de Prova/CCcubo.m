@@ -3,7 +3,7 @@
 
 f = 10000 ; % forca por no - aplicada no nó
 
-caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Corpo de Prova\';
+caminhoInput = 'C:\Users\WAGNER\Documents\GitHub\FEM-matlab\Benchmarks\Corpo de Prova\';
 coordNome = 'CoordenadasNodais.txt';
 conecNome = 'Conectividade.txt';
 

@@ -37,5 +37,28 @@ A malha pode ser informada diretamente nas matrizes Ncoord e Nconec. ou através
 - Carga nodal (não seguidora)
 
 
+----------------------------------------------------------------------------------------------------------------------------
 
+## Setup da Simulação
+
+#### Malha
+Ncoord - Matriz de coordenadas nodais. Segue o estilo : [Número do nó , Posição X, Posição Y , Posição Z]
+Nconec - Matriz de coordenadas nodais. Segue o estilo : [Número do elemento , No1 , No2 , ...]
+
+#### Condições de contorno
+Mcc - Matriz de condições de contorno do tipo deslocamento preescrito. Segue o estilo : [Número do nó , Deslocamento , Grau de Liberdade]
+
+Mfn - Matriz de forças nodais. Segue o estilo : [Número do nó , Força , Grau de Liberdade]
+
+#### Tipo de simulação
+
+Deve-se escolher o tipo apropriado de matriz tangente para cada tipo de simulação.
+**IMPORTANTE:**  Essa condição deve ser modificada no Main e na função AssemblyDaGlobal e devem estar consistentes. Verificar se o elemento possui o tipo de simulação desejado
+
+
+#### Material 
+
+No momento apenas um material Linear Elastico está implementado. As constantes elásticas do modulo de elasticidade (E) e da razão de poisson (v) devem ser indicadas
+
+	
 

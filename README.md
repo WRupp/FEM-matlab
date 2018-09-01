@@ -43,6 +43,7 @@ A malha pode ser informada diretamente nas matrizes Ncoord e Nconec. ou através
 
 #### Malha
 Ncoord - Matriz de coordenadas nodais. Segue o estilo : [Número do nó , Posição X, Posição Y , Posição Z]
+
 Nconec - Matriz de coordenadas nodais. Segue o estilo : [Número do elemento , No1 , No2 , ...]
 
 #### Condições de contorno

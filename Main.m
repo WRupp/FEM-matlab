@@ -4,70 +4,95 @@
 
 
 clear; close all;
+
 % Determina e adiciona todas as subfolders
-folder = fileparts(which(mfilename));
-addpath(genpath(folder));
+    folder = fileparts(which(mfilename));
+    addpath(genpath(folder));
 
 %% Definiï¿½ï¿½o dos arquivos de entrada e saida
 
 %Input
-% caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\Resultados Abaqus\';
-% inpNome = 'Viguinha.inp';
-% caminhoInput = 'C:\Users\Wagner\Desktop\Projeto FEM\FEM-matlab\Benchmarks\Vaso de Pressao\';
-% inpNome = 'Job-1.inp';
-caminhoInput =  [folder '\Benchmarks\Viga\' ];
-inpNome = 'Viguinha.inp';
+
+  % caminhoInput = '\Benchmarks\Vaso de Pressao\';
+%   inpNome = 'Job-1.inp';
+    caminhoInput =  [folder '\Benchmarks\Viga\' ];
+    inpNome = 'Viguinha.inp';
 
 %Output
-caminhoOutput = [folder '\Arquivos_Saída\' ];
-Unome = 'Deslocamentos_Nodais.txt';
-Tnome = 'Tensao_elemento.txt';
-Defnome =  'Desformacao_elemento.txt';
+    caminhoOutput = [folder '\Arquivos_Saída\' ];
+    Unome = 'Deslocamentos_Nodais.txt';
+    Tnome = 'Tensao_elemento.txt';
+    Defnome =  'Desformacao_elemento.txt';
 
 %Full path
-INPfile = [caminhoInput inpNome];
+    INPfile = [caminhoInput inpNome];
 
 
 %% Definiï¿½ï¿½o do material
-E = 2e5;
-v = 0.3;
+% Definir os valores das constantes do material
 
-% C = Cepd(E,v); % Estado Plano de Deformacao
-C = Cept(E,v); % Estado Plano de Tensao
-% C = Caxis(E,v);   % Axissimetrico
-% C = C3D_lame(lambda,mu);
-% C = C3D (E,v);
+    E = 2e5;
+    v = 0.3;
 
-disp('Nao esqueï¿½a de colocar o C material apropriado')
+%% Definição o tipo de simulação 
+% Aqui calcula a matriz de rigidez do material
+% Escolher o tipo adequado de simulação - Comentar todos os outros
+
+disp('Verificar dentro da rotina do Assembly da global se o caso está consistente')
+
+% Estado Plano de Deformacao
+    % C = Cepd(E,v); 
+
+% Estado Plano de Tensao
+    C = Cept(E,v); 
+
+% Axissimetrico
+    % C = Caxis(E,v);  
+
+% 3D
+    % C = C3D_lame(lambda,mu);
+    % C = C3D (E,v);
 
 %% Definiï¿½ï¿½es do tipo de Malha/Elemento
 
-ngl=2;          % Numero de Graus de Liberdade por nï¿½
-Dim =2;         % Dimensao do problema
+    ngl=2;          % Numero de Graus de Liberdade por nï¿½
+    Dim =2;         % Dimensao do problema
 
-%% Definiï¿½ï¿½o da Malha
-
+    %Ncoord - Matriz de Posicoes nodais. A primeira coluna é a numeracao
+    %Nconec - Matriz de Conectividade. A primeira coluna é a numeracao
+    
     % Le a malha de um arquivo .inp expecificado
-         [Ncoord,Nconec] = leINP(INPfile);
+    [Ncoord,Nconec] = leINP(INPfile);
+    
+    
+%% Condiï¿½ï¿½es de contorno - Carrega as condicoes para cada caso
+
+    % Mcc - matriz de condicoes de contorno -> Nos com deslocamento
+    % preescrito
+    
+    % Mfn - Matriz de forças nodais -> Nós com forças nodais
+
+    
+    % EXEMPLOS
+    
+% Script que evoca as CC para o caso da Viga
+    CCviga; 
+% Script que evoca as CC para o caso do Vaso de Pressao
+% 	CCVaso;   
+%Script que evoca as CC para corpo de prova 3D sob tracao
+%   CCcubo; 
+%   CCcubinho;
 
 
-% Condiï¿½ï¿½es de contorno - Carrega as condicoes para cada caso
+%% Processamento
 
-     CCviga; % Script que evoca as CC para o caso da Viga
-%      CCVaso;   % Script que evoca as CC para o caso do Vaso de Pressao
-%      CCcubo;  %Script que evoca as CC para corpo de prova sob tracao
-%      CCcubinho;
-
-
-    % Ordena por nï¿½ as matrizes
+% Ordena por nï¿½ as matrizes
     SNcoord = sortrows(Ncoord);
     Mcc = sortrows(Mcc);
     Mfn = sortrows(Mfn);
 
-    % Calcula a quantidade de nos da malha
+% Calcula a quantidade de nos da malha
     Nnos = size(SNcoord,1);
-
-%% Processamento
 
 % Declaraï¿½ï¿½o inicial de Variaveis
 
@@ -75,12 +100,12 @@ Dim =2;         % Dimensao do problema
     Fglobal = zeros(ngl*Nnos,1);
 
 % Assembly da matriz de rigidez global
-% AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
+    % AQUI PRECISA DEPENDER DO TIPO DE ELEMENTO
     Kglobal = AssemblyDaGlobal(Nconec,SNcoord,Kglobal,Dim,ngl,C);
 
 % Assembly do vetor de forï¿½as
 
-%  Fglobal = AssemblyForcas(SetEsq,SNcoord,Nconec);
+    %  Fglobal = AssemblyForcas(SetEsq,SNcoord,Nconec);
 
     for i=1:size(Mfn,1)
        Fglobal(ngl*(Mfn(i,1)-1) + Mfn(i,3)) = Mfn(i,2);
@@ -88,32 +113,34 @@ Dim =2;         % Dimensao do problema
 
 % Aplicacao das Condicoes de Contorno - Substitui linhas/colunas dos GL
 
-[Kglobal,Fglobal] = AplicaCC (Kglobal,Fglobal,Mcc,ngl);
+    [Kglobal,Fglobal] = AplicaCC (Kglobal,Fglobal,Mcc,ngl);
 
 % Calculo dos deslocamentos
 
- U = Kglobal  \ Fglobal ;
+    U = Kglobal  \ Fglobal ;
 
-  % Repoe as linhas/Colunas Eliminadas e calcula as Reaï¿½oes nos apoios
+% Repoe as linhas/Colunas Eliminadas e calcula as Reaï¿½oes nos apoios
 
-%   [Fglobal,Kglobal] = calcReacoes(Kglobal,Fglobal,U,salvaEq);
+    %   [Fglobal,Kglobal] = calcReacoes(Kglobal,Fglobal,U,salvaEq);
 
-  % Calculo das Reacoes
-%     Ffinal = Kglobal*Ufinal; % Nï¿½o ï¿½ a maneira melhor mas ï¿½ simples.
+% Calculo das Reacoes
+    %     Ffinal = Kglobal*Ufinal; % Nï¿½o ï¿½ a maneira melhor mas ï¿½ simples.
 
  %% Pï¿½s processamento
 
- % Organiza o vetor de deslocamentos por no
-   Uorg = organizaU(U,ngl,Nnos);
+% Organiza o vetor de deslocamentos por no
+    Uorg = organizaU(U,ngl,Nnos);
 
- % Coordenadas nodais deslocadas
-   DefNcoord = defCoord(SNcoord,Uorg);
+% Coordenadas nodais deslocadas
+    DefNcoord = defCoord(SNcoord,Uorg);
 
+ 
 
 %% Problema Viga
 
-  %  Vuy = deslocLinhaNeutra(SNcoord,Uorg);
+%  Vuy = deslocLinhaNeutra(SNcoord,Uorg);
 %     Comparacao_Viga;
+    VisualizaViga
 
 %% Problema Vaso Pressao
 

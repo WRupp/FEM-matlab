@@ -15,7 +15,7 @@
     SetDireita = NodePosFinder(Ncoord,xmax);
     SetLinhaNeutraDir = NodePosYFinder(Ncoord(SetDireita,:),5/2);
     
-    Fface= -100;
+    Fface= -10;
     
     f = Fface;
 %      f = Fface/size(Set2,1) ; % Rever cargas nodais consistentes
